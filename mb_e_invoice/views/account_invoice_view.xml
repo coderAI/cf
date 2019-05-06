@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mb_view_account_invoice_form_inherit" model="ir.ui.view">
+            <field name="name">mb.view.account.invoice.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='other_info']" position="before">
+                    <page string="E-Invoice" name="e_invoice">
+                        <button name="create_e_invoice" string="Create E Invoice" type="object" attrs="{'invisible': [('support_invisible_create_e_invoice','=',True)]}"/>
+                        <button name="set_to_draft" string="Set to Draft" type="object" attrs="{'invisible': [('support_invisible_set_to_draft','=',True)]}"/>
+                        <button name="send_request_e_invoice" string="Send Request" type="object" attrs="{'invisible': [('support_invisible_send_request','=',True)]}"/>
+                        <button name="export_action" string="Export File" type="object" attrs="{'invisible': [('support_invisible_export_action','=',True)]}"/>
+                        <group>
+                            <field name="e_invoice_id" invisible="1"/>
+                            <group>
+                                <field name="e_invoice_name"/>
+                                <field name="e_invoice_state"/>
+                                <field name="e_invoice_require_date" widget="date"/>
+                                <field name="e_invoice_reason_line"/>
+                            </group>
+                            <group>
+                                <field name="e_invoice_template_no"/>
+                                <field name="e_invoice_reference_no"/>
+                                <field name="e_invoice_vat_no"/>
+                            </group>
+                        </group>
+                        <field name="support_invisible_create_e_invoice" invisible="1"/>
+                        <field name="support_invisible_set_to_draft" invisible="1"/>
+                        <field name="support_invisible_export_action" invisible="1"/>
+                        <field name="support_invisible_send_request" invisible="1"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

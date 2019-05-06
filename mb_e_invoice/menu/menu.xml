@@ -1,0 +1,63 @@
+<odoo>
+
+        <menuitem
+                id="menu_e_invoice_root"
+                name="E-Invoice"
+                web_icon="mb_e_invoice,static/description/icon.png"
+                sequence="88"/>
+
+
+        <menuitem
+                id="menu_e_invoice_dashboard"
+                name="Dashboard"
+                action="action_view_mb_e_invoices"
+                parent="menu_e_invoice_root"
+                sequence="1"/>
+
+        <menuitem
+                id="menu_e_invoice_child"
+                name="E-Invoice"
+                action="action_view_mb_e_invoices"
+                parent="menu_e_invoice_root"
+                sequence="2"/>
+        <!--Menu configuration-->
+        <menuitem
+                id="menu_e_invoice_configuration"
+                name="Configuration"
+                parent="menu_e_invoice_root"
+                sequence="16888"/>
+        <menuitem
+                id="menu_view_action_view_stages_invoice_form"
+                name="Config Stages"
+                action="action_view_stages_invoice"
+                parent="menu_e_invoice_configuration"
+                sequence="1"/>
+        <menuitem
+                id="menu_view_action_mb_reason_invoice_invoice_form"
+                name="Config Reason"
+                action="action_mb_reason_invoice_invoice"
+                parent="menu_e_invoice_configuration"
+                sequence="1"/>
+        <menuitem
+                id="menu_view_action_mb_e_invoice_api_config_invoice_form"
+                name="Config Api Url"
+                action="action_mb_e_invoice_api_config_invoice"
+                parent="menu_e_invoice_configuration"
+                sequence="1"/>
+        <menuitem
+                id="menu_view_action_mb_e_invoice_register_type_config"
+                name="Config Register Type"
+                action="action_mb_e_invoice_register_type_config"
+                parent="menu_e_invoice_configuration"
+
+                sequence="1"/>
+
+
+        <!--Menu Report-->
+        <menuitem
+                name="Report"
+                action="action_report_view_mb_e_invoices"
+                id="menu_report_e_invoices"
+                parent="mb_e_invoice.menu_e_invoice_root"
+                sequence="10"/>
+</odoo>

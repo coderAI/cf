@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_stages_invoice_form" model="ir.ui.view">
+            <field name="name">view.stages.invoice.form</field>
+            <field name="model">stages.invoice</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Stages Invoice">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="key"/>
+                            <field name="active"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_stages_invoice_tree" model="ir.ui.view">
+            <field name="name">view.stages.invoice.tree</field>
+            <field name="model">stages.invoice</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_stages_invoice" model="ir.actions.act_window">
+            <field name="name">Stages Invoice</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stages.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>
+

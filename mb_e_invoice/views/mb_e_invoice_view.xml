@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_mb_e_invoices_form" model="ir.ui.view">
+            <field name="name">view.mb.e.invoices.form</field>
+            <field name="model">mb.e.invoices</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Stages Invoice">
+                    <header>
+                        <button name="set_open" string="Open" type="object" class="oe_highlight" attrs="{'invisible': [('stages_name','!=','Draft')]}"/>
+                        <!--'support_invisible', '=', False)]}"/>-->
+                        <!--groups="mb_e_invoice.group_e_invoice_users,mb_e_invoice.group_e_invoice_managers"/>&ndash;&gt;-->
+                        <!--attrs="{'invisible': ['|', ('active','=',False), ('probability', '=', 100)]}"/>-->
+                        <button name="set_done" string="Done" confirm="Are you sure export this data?" type="object" class="oe_highlight" attrs="{'invisible': [('stages_name','!=','Open')]}"
+                                groups="mb_e_invoice.group_e_invoice_exporter,mb_e_invoice.group_e_invoice_managers"/>
+                        <button name="set_reject" string="Reject" type="object" attrs="{'invisible': [('stages_name','!=','Open')]}"
+                                groups="mb_e_invoice.group_e_invoice_exporter,mb_e_invoice.group_e_invoice_managers"/>
+
+
+                        <button name="set_cancel" string="Cancel" type="object" class="oe_highlight" attrs="{'invisible': [('stages_name', '!=', 'Done')]}"
+                                groups="mb_e_invoice.group_e_invoice_exporter,mb_e_invoice.group_e_invoice_managers"/>
+                        <button name="export_action" string="Export File" type="object" class="oe_highlight" attrs="{'invisible': [('stages_name', '!=', 'Done')]}"/>
+
+
+                        <button name="set_to_draft" string="Set to Draft" type="object" attrs="{'invisible': [('stages_name', '!=', 'Refuse')]}"/>
+                        <field name="stages_id" widget="statusbar" on_change="1" can_create="true" can_write="true" modifiers="{'readonly': true}"/>
+                        <field name="stages_name" invisible="1" modifiers="{'invisible': true, 'readonly': true}"/>
+                        <field name="support_invisible" invisible="1" modifiers="{'invisible': true, 'readonly': true}"/>
+                        <field name="support_invisible_dtd" invisible="1" modifiers="{'invisible': true, 'readonly': true}"/>
+                    </header>
+                    <sheet>
+                        <!--<div class="oe_button_box" name="button_box">-->
+                        <!--<button name="export_action" type="object" class="oe_inline oe_stat_button" icon="fa-star" string="Export"/>-->
+                        <!--</div>-->
+                        <h1>
+                            <field name="name" readonly="1"/>
+                            <field name="user_id" invisible="1"/>
+                            <field name="support_readonly_field" invisible="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="customer_id" context="{'search_default_customer':1, 'show_address': 1}" options="{'always_reload': True}" domain="[('customer', '=', True)]" on_change="1" can_create="true" can_write="true" attrs="{'readonly': [('support_readonly_field', '=', True)]}" modifiers="{'required': true}"/>
+                                <field name="buyer_name" attrs="{'readonly': [('support_readonly_field', '=', True)]}"/>
+                                <field name="tax_code" readonly="1"/>
+                                <field name="address" attrs="{'readonly': [('support_readonly_field', '=', True)]}"/>
+                                <field name="payment_type" attrs="{'readonly': [('support_readonly_field', '=', True)]}" required="1"/>
+                                <field name="invoice_ids" domain="[('partner_id','=',customer_id),('mb_e_invoices_ids','=',False)]" widget="many2many_tags" options="{'no_open': True, 'no_create': True}" on_change="1" modifiers="{}" attrs="{'readonly': [('support_readonly_field', '=', True)]}"/>
+                                <field name="is_detail" attrs="{'readonly': [('support_readonly_field', '=', True)]}"/>
+                            </group>
+                            <group>
+                                <field name="require_date" attrs="{'readonly': [('support_readonly_field', '=', True)]}" widget="date" required="1"/>
+                                <field name="export_date" readonly="1" widget="date"/>
+                                <field name="export_user_id" readonly="1"/>
+                                <field name="template_no" readonly="1" />
+                                <field name="reference_no" readonly="1"/>
+                                <field name="vat_no" readonly="1"/>
+                                <field name="reason_line_ids" readonly="1" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Invoice Line">
+                                <field name="invoice_line_ids" nolabel="1" readonly="1">
+                                    <tree>
+                                        <field name="register_type"/>
+                                        <field name="product_id"/>
+                                        <field name="time"/>
+                                        <field name="quantity"/>
+                                        <field name="invoice_line_tax_ids"/>
+                                        <field name="price_unit" class="oe_subtotal_footer_separator"/>
+                                        <field name="price_subtotal"/>
+                                        <field name="invoice_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="E-invoice Information" readonly="1">
+                                <group>
+                                    <group>
+                                        <field name="subtotal" readonly="1"/>
+                                        <field name="subtotal_0" readonly="1"/>
+                                        <field name="subtotal_5" readonly="1"/>
+                                        <field name="subtotal_10" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="tax_5" readonly="1"/>
+                                        <field name="tax_10" readonly="1"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="total" readonly="1"/>
+                                </group>
+                            </page>
+                            <page string="Note">
+                                <field name="note" attrs="{'readonly': [('support_readonly_field', '=', True)]}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="view_mb_e_invoices_tree" model="ir.ui.view">
+            <field name="name">view.mb.e.invoices.tree</field>
+            <field name="model">mb.e.invoices</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="customer_id"/>
+                    <field name="buyer_name"/>
+                    <field name="payment_type"/>
+                    <field name="stages_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="view_mb_e_invoices_pivot" model="ir.ui.view">
+            <field name="name">Mb E Invoices Report Pivot</field>
+            <field name="model">mb.e.invoices</field>
+            <field name="arch" type="xml">
+                <pivot string="E Invoices" disable_linking="True">
+                    <field name="subtotal" type="measure"/>
+                    <field name="subtotal_0" type="measure"/>
+                    <field name="subtotal_5" type="measure"/>
+                    <field name="subtotal_10" type="measure"/>
+                    <field name="total" type="measure"/>
+                    <field name="require_date" interval="month" type="row"/>
+                </pivot>
+            </field>
+        </record>
+
+
+        <record id="view_mb_e_invoices_graph" model="ir.ui.view">
+            <field name="name">Mb E Invoices Report Graph</field>
+            <field name="model">mb.e.invoices</field>
+            <field name="arch" type="xml">
+                <graph string="E Invoices">
+                    <field name="require_date" type="row"/>
+                    <field name="total" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="action_view_mb_e_invoices" model="ir.actions.act_window">
+            <field name="name">E-Invoice</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mb.e.invoices</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record id="action_report_view_mb_e_invoices" model="ir.actions.act_window">
+            <field name="name">E-Invoice Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mb.e.invoices</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot,graph</field>
+        </record>
+    </data>
+</odoo>
+

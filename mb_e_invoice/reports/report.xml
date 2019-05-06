@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="services_info_report" model="ir.actions.report.xml">
+      <field name="name">Sale Order - Services Info</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">mb_e_invoices_report</field>
+      <field name="report_name">cf_sale_info_report</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_sale</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/service_info_template.odt</field>
+    </record>
+
+    <record id="vendor_bill_template" model="ir.actions.report.xml">
+      <field name="name">Phieu Chi</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">account.invoice</field>
+      <field name="report_name">vendor_bill_template</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_sale</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PHIEU_CHI.odt</field>
+    </record>
+</odoo>

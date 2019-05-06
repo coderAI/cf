@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+mb_stages_invoice_rule,mb.stages.invoice,model_stages_invoice,,1,1,1,0
+mb_e_invoices_rule,mb.e.invoices,model_mb_e_invoices,,1,1,1,0
+mb_mb_reason_invoice_line_rule,mb.reason.invoice.line,model_mb_reason_invoice_line,,1,1,1,0
+mb_mb_reason_invoice_rule,mb.reason.invoice,model_mb_reason_invoice,,1,0,0,0
+mb_e_invoices_rule,mb.e.invoices,model_mb_e_invoices,,1,1,1,0
+mb_e_invoice_api_config_rule,mb.e.invoice.api.config,model_mb_e_invoice_api_config,,1,0,1,0
+mb_e_invoice_register_type_config_rule,mb.e.invoice.register.type.config,model_mb_e_invoice_register_type_config,,1,0,1,0

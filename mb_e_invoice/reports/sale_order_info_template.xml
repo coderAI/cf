@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Email template -->
+        <record id="cf_services_info_template" model="mail.template">
+            <field name="name">E Invoices - Account invoice Info</field>
+            <field name="email_from">${(user.email and '%s &lt;%s&gt;' % (user.name, user.email) or '')|safe}</field>
+            <field name="subject">Công Ty Cổ Phần CloudFone: Đối soát dịch vụ từ ${object.get_date_report()[0]} đến ${object.get_date_report()[1]}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="mb_e_invoice.model_mb_e_invoices"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="report_template" ref="mb_e_invoices_info_report"/>
+            <field name="report_name">Đối sát tháng ${object.get_date_report()[3]}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+            % set services = object.get_service_info()
+            % set services_expired = object.get_service_info(True)
+            % set count = 0
+<p>Dear Khách hàng ${object.partner_id.name},</p>
+<p>Công ty Cổ Phần CloudFone xin gửi quý khách thông tin đối soát dịch vụ tháng ${object.get_date_report()[3]}, quý khách vui lòng xem thông tin chi tiết trong file đính kèm.</p>
+<p>Chân thành cảm ơn quý khách đã sử dụng dịch vụ của công ty chúng tôi.</p>
+			]]></field>
+        </record>
+    </data>
+</odoo>
