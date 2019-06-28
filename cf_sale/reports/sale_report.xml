@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="cf_view_order_product_pivot" model="ir.ui.view">
+        <field name="name">sale.report.pivot.inherit</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_pivot"/>
+        <field name="arch" type="xml">
+            <xpath expr='//field[@name="date"]' position='after'>
+                <field name="user_id" type="row"/>
+            </xpath>
+            <xpath expr='//field[@name="price_subtotal"]' position='after'>
+                <field name="price_total" type="measure"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="cf_sale_report_view_search" model="ir.ui.view">
+        <field name="name">sale.report.search.inherit</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='Sales']" position="attributes">
+                <attribute name="domain">[('state','not in',('not_received', 'draft', 'cancel', 'sent', 'sale'))]</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='year']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='year']" position="before">
+                <filter string="This Month" name="this_month" domain="[('date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                <filter string="Last Month" domain="[('date','&gt;=',(context_today()-relativedelta(months=1)).strftime('%Y-%m-01')),('date','&lt;',time.strftime('%Y-%m-01'))]"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale.action_order_report_all" model="ir.actions.act_window">
+        <field name="context">{'search_default_Sales':1, 'search_default_this_month': 1, 'group_by_no_leaf':1,'group_by':[]}</field>
+    </record>
+</odoo>

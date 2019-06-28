@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="apply_remove_coupon_view_form" model="ir.ui.view">
+        <field name="name">apply.remove.coupon.form</field>
+        <field name="model">apply.remove.coupon</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <footer>
+                        <button name="action_apply" string="Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_apply_remove_coupon" model="ir.actions.act_window">
+        <field name="name">Apply/Remove Coupon</field>
+        <field name="res_model">apply.remove.coupon</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

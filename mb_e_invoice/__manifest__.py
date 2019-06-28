@@ -1,7 +1,7 @@
 {
     'name': 'MB E-invoice',
     'category': 'matbao',
-    'version': '1.1',
+    'version': '1.1.8',
     'sequence': 18,
     'author': 'Huy Snow',
         'description': """
@@ -31,6 +31,7 @@ You can manage:
         'views/account_invoice_view.xml',
         'wizards/mb_reason_invoice_line_wizard.xml',
         'wizards/mb_e_invoice_wizard.xml',
+        'wizards/mb_e_invoice_set_done_wizard.xml',
 
         'menu/menu.xml',
         'security/ir.model.access.csv',

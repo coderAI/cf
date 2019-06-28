@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mb_data_type_register_register" model="mb.data.type">
+            <field name="sequence">1</field>
+            <field name="name">Register</field>
+            <field name="code">register</field>
+            <field name="type">register</field>
+        </record>
+        <record id="mb_data_type_register_renew" model="mb.data.type">
+            <field name="sequence">2</field>
+            <field name="name">Renew</field>
+            <field name="code">renew</field>
+            <field name="type">register</field>
+        </record>
+        <record id="mb_data_type_register_upgrade" model="mb.data.type">
+            <field name="sequence">4</field>
+            <field name="name">Upgrade</field>
+            <field name="code">upgrade</field>
+            <field name="type">register</field>
+        </record>
+
+        <record id="mb_data_type_customer_person" model="mb.data.type">
+            <field name="sequence">4</field>
+            <field name="name">Individual</field>
+            <field name="code">person</field>
+            <field name="type">customer</field>
+        </record>
+        <record id="mb_data_type_customer_company" model="mb.data.type">
+            <field name="sequence">5</field>
+            <field name="name">Company</field>
+            <field name="code">company</field>
+            <field name="type">customer</field>
+        </record>
+        <record id="mb_data_type_service_draft" model="mb.data.type">
+            <field name="sequence">7</field>
+            <field name="name">Draft</field>
+            <field name="code">draft</field>
+            <field name="type">service</field>
+        </record>
+        <record id="mb_data_type_service_waiting" model="mb.data.type">
+            <field name="sequence">8</field>
+            <field name="name">Waiting</field>
+            <field name="code">waiting</field>
+            <field name="type">service</field>
+        </record>
+        <record id="mb_data_type_service_done" model="mb.data.type">
+            <field name="sequence">9</field>
+            <field name="name">Done</field>
+            <field name="code">done</field>
+            <field name="type">service</field>
+        </record>
+        <record id="mb_data_type_service_refused" model="mb.data.type">
+            <field name="sequence">10</field>
+            <field name="name">Refused</field>
+            <field name="code">refused</field>
+            <field name="type">service</field>
+        </record>
+        <!--Order Type-->
+        <record id="mb_data_type_order_type_normal" model="mb.data.type">
+            <field name="sequence">20</field>
+            <field name="name">Normal</field>
+            <field name="code">normal</field>
+            <field name="type">order_type</field>
+        </record>
+        <record id="mb_data_type_order_type_id" model="mb.data.type">
+            <field name="sequence">22</field>
+            <field name="name">Online</field>
+            <field name="code">online</field>
+            <field name="type">order_type</field>
+        </record>
+        <record id="mb_data_type_order_type_renewed" model="mb.data.type">
+            <field name="sequence">23</field>
+            <field name="name">Renewed</field>
+            <field name="code">renewed</field>
+            <field name="type">order_type</field>
+        </record>
+        <!--Customer Level-->
+        <record id="mb_data_type_customer_level_1" model="mb.data.type">
+            <field name="sequence">30</field>
+            <field name="name">1</field>
+            <field name="code">1</field>
+            <field name="type">customer_level</field>
+        </record>
+        <record id="mb_data_type_customer_level_2" model="mb.data.type">
+            <field name="sequence">31</field>
+            <field name="name">2</field>
+            <field name="code">2</field>
+            <field name="type">customer_level</field>
+        </record>
+        <record id="mb_data_type_customer_level_3" model="mb.data.type">
+            <field name="sequence">32</field>
+            <field name="name">3</field>
+            <field name="code">3</field>
+            <field name="type">customer_level</field>
+        </record>
+        <record id="mb_data_type_customer_level_4" model="mb.data.type">
+            <field name="sequence">33</field>
+            <field name="name">4</field>
+            <field name="code">4</field>
+            <field name="type">customer_level</field>
+        </record>
+        <record id="mb_data_type_customer_level_5" model="mb.data.type">
+            <field name="sequence">34</field>
+            <field name="name">5</field>
+            <field name="code">5</field>
+            <field name="type">customer_level</field>
+        </record>
+    </data>
+</odoo>

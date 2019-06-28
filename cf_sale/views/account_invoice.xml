@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record model="ir.ui.view" id="view_invoice_form_inherit">
+		<field name="name">view.invoice.form.inherit</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_form"/>
+		<field name="arch" type="xml">
+			<field name="partner_id" position="attributes">
+				<attribute name="options">{'no_quick_create': True}</attribute>
+			</field>
+			<field name="product_id" position="before">
+				<field name="register_type"/>
+			</field>
+			<field name="quantity" position="attributes">
+				<attribute name="attrs">{'invisible': [('register_type', '!=', 'sale')]}</attribute>
+			</field>
+			<field name="name" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</field>
+			<field name="uom_id" position="before">
+				<field name="time"/>
+			</field>
+			<xpath expr="//page[@name='other_info']" position="after">
+                <page string="VAT Info" name="vat_info" groups="account.group_account_invoice"
+                    attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund'))]}">
+					<group>
+						<group>
+							<field name="vat_no"/>
+							<field name="vat_status"/>
+							<field name="vat_date"/>
+						</group>
+					</group>
+					<group/>
+                </page>
+            </xpath>
+			<xpath expr="//field[@name='payments_widget']" position="attributes">
+				<attribute name="groups">account.group_account_invoice</attribute>
+            </xpath>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="view_invoice_supplier_form_inherit">
+		<field name="name">view.invoice.form.inherit</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_supplier_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//button[@name='action_invoice_draft']" position="after">
+				<button name="print_bill" states="open,paid" string="Print Bill" type="object"/>
+			</xpath>
+		</field>
+	</record>
+</odoo>

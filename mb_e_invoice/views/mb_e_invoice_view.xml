@@ -114,6 +114,8 @@
                     <field name="name"/>
                     <field name="customer_id"/>
                     <field name="buyer_name"/>
+                    <field name="require_date"/>
+                    <field name="export_date"/>
                     <field name="payment_type"/>
                     <field name="stages_id"/>
                 </tree>

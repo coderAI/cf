@@ -1,0 +1,168 @@
+<odoo>
+    <record id="view_attendance_tree_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.tree.inherit</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="decoration-danger">in_money != 0.0 or out_money != 0</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.menu" id="hr_attendance.menu_hr_attendance_my_attendances">
+        <field name="active" eval="False"/>
+    </record>
+    <record model="ir.ui.menu" id="hr_attendance.menu_hr_attendance_view_employees_kanban">
+        <field name="active" eval="False"/>
+    </record>
+    <record model="ir.ui.menu" id="hr_attendance.menu_hr_attendance_kiosk_mode">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.view" id="view_hr_attendance_form_inherit">
+        <field name="name">view.hr.attendance.form.inherit1</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button type="action" name="%(action_remove_attendance_wizard)d" string="Remove Attendance" class="btn-primary"
+                            attrs="{'invisible': ['|', ('remove', '=', False), '&amp;', ('in_money', '=', 0), ('out_money', '=', 0)]}"/>
+                </header>
+            </xpath>
+            <xpath expr="//sheet" position="after">
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </xpath>
+            <xpath expr="//group" position="replace">
+                <group>
+                    <group>
+                        <field name="employee_id" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="card_no" readonly="1"/>
+                        <field name="date_att" required="1"/>
+                        <field name="check_in"/>
+                        <field name="check_out"/>
+                        <field name="remove" invisible="1"/>
+                        <field name="remover" invisible="1" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="min_in"/>
+                        <field name="min_out"/>
+                        <field name="in_money"/>
+                        <field name="out_money"/>
+                        <field name="reason" attrs="{'invisible': [('reason', '=', False)]}" readonly="1"/>
+                        <field name="user_id" attrs="{'invisible': [('reason', '=', False)]}" readonly="1" options="{'no_open': True}"/>
+                        <field name="date_remove" attrs="{'invisible': [('reason', '=', False)]}" readonly="1"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_hr_attendance_tree_inherit">
+        <field name="name">view.hr.attendance.tree.inherit1</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="card_no"/>
+            </xpath>
+            <xpath expr="//tree" position="attributes">
+                <attribute name="colors">blue:leave==True</attribute>
+                <attribute name="default_order">date_att desc, employee_id asc</attribute>
+            </xpath>
+            <xpath expr="//field[@name='check_in']" position="before">
+                <field name="date_att"/>
+            </xpath>
+            <xpath expr="//field[@name='check_out']" position="after">
+                <field name="min_in"/>
+                <field name="min_out"/>
+                <field name="in_money"/>
+                <field name="out_money"/>
+                <field name="leave" invisible="1"/>
+                <field name="remove" invisible="1"/>
+                <field name="remover" widget="many2many_tags" invisible="1"/>
+                <field name="reason"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_hr_attendance_search_inherit" model="ir.ui.view">
+        <field name="name">Attendance Search - Inherit</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[2]" position="replace">
+                <filter string="Current Month" name="this_month" domain="[('date_att', '&gt;=', datetime.datetime.now().strftime('%Y-%m-01'))]"/>
+                <filter string="Last Month" domain="[('date_att','&gt;=',(context_today()-relativedelta(months=1)).strftime('%Y-%m-01')),('date_att','&lt;',time.strftime('%Y-%m-01'))]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_attendance.hr_attendance_action" model="ir.actions.act_window">
+        <field name="context">{"search_default_this_month":1}</field>
+    </record>
+
+    <record model="ir.values" id="multi_remove_attendance_extend">
+        <field name="model_id" ref="model_hr_attendance"/>
+        <field name="name">Remove Attendance</field>
+        <field name="key2">client_action_multi</field>
+        <field name="value" eval="'ir.actions.act_window,' + str(ref('action_remove_attendance_wizard'))" />
+        <field name="key">action</field>
+        <field name="model">hr.attendance</field>
+    </record>
+
+    <record id="view_multi_update_attendance_tree" model="ir.ui.view">
+        <field name="name">multi.update.attendance.tree</field>
+        <field name="model">multi.update.attendance</field>
+        <field name="arch" type="xml">
+            <tree string="Update Attendance">
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_multi_update_attendance_form" model="ir.ui.view">
+        <field name="name">multi.update.attendance.form</field>
+        <field name="model">multi.update.attendance</field>
+        <field name="arch" type="xml">
+            <form string="Update Attendance">
+                <header>
+                    <button name="multi_update_attendance" string="Update" type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="date_from" required="1"/>
+                        <field name="date_to" required="1"/>
+                        <field name="type" widget="radio" options="{'horizontal': true}" attrs="{'required': [('employee_ids', '!=', False)]}"/>
+                        <field name="employee_ids" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="comment"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_multi_update_attendance" model="ir.actions.act_window">
+        <field name="name">Update Holidays</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">multi.update.attendance</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create.
+            </p>
+        </field>
+    </record>
+</odoo>

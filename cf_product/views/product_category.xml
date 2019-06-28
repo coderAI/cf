@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_cf_product_category_tree_inherit">
+			<field name="name">view.cf.product.category.tree.inherit</field>
+			<field name="model">product.category</field>
+			<field name="inherit_id" ref="product.product_category_list_view"/>
+			<field name="arch" type="xml">
+				<field name="display_name" position="before">
+					<field name="code" string="Code"/>
+				</field>
+				<field name="display_name" position="after">
+					<field name="minimum_register_time"/>
+					<field name="billing_cycle"/>
+					<field name="setup_price"/>
+					<field name="renew_price"/>
+					<field name="capacity_price"/>
+					<field name="is_addons"/>
+					<field name="can_be_register"/>
+					<field name="can_be_renew"/>
+					<field name="for_sale"/>
+				</field>
+			</field>
+		</record>
+
+    <record id="product_category_form_view" model="ir.ui.view">
+        <field name="name">product.category.form</field>
+        <field name="model">product.category</field>
+        <field name="priority">15</field>
+        <field name="arch" type="xml">
+            <form class="oe_form_configuration">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Category name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Lamps"/></h1>
+                    </div>
+                    <group name="header">
+                        <group>
+                            <field name="code" string="Code"/>
+                            <field name="uom_id"/>
+                            <field name="primary"/>
+                            <field name="to_be_renewed"/>
+                            <field name="for_sale"/>
+                        </group>
+                        <group>
+                            <field name="parent_id"/>
+                            <field name="service_sequence_id"/>
+                            <field name="can_be_register"/>
+                            <field name="can_be_renew"/>
+                            <field name="refund_percent"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Price" name="price">
+                            <group>
+                                <group>
+                                    <field name="setup_price"/>
+                                    <field name="renew_price"/>
+                                </group>
+                                <group>
+                                    <field name="capacity_price"/>
+                                    <field name="default_tax"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Accounting" name="accounting">
+                            <group>
+                                <group>
+                                    <field name="register_account_income_id"/>
+                                    <field name="register_account_expense_id"/>
+                                    <field name="register_analytic_income_acc_id"/>
+                                    <field name="register_analytic_expense_acc_id"/>
+                                </group>
+                                <group>
+                                    <field name="renew_account_income_id"/>
+                                    <field name="renew_account_expense_id"/>
+                                    <field name="renew_analytic_income_account_id"/>
+                                    <field name="renew_analytic_expense_acc_id"/>
+                                </group>
+                                <group>
+                                    <field name="capacity_account_income_id"/>
+                                    <field name="capacity_account_expense_id"/>
+                                    <field name="capacity_analytic_income_account_id"/>
+                                    <field name="capacity_analytic_expense_acc_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Config" name="config">
+                            <group>
+                                <group>
+                                    <field name="minimum_register_time"/>
+                                    <field name="billing_cycle"/>
+                                </group>
+                                <group>
+                                    <field name="is_addons"/>
+                                    <field name="allow_upgrade"/>
+                                    <field name="cf_product_category_ids" widget="many2many_tags"
+                                           attrs="{'invisible': [('allow_upgrade','=',False)]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Other" name="other">
+                            <group>
+                                <group>
+                                    <group string="Inventory Valuation">
+                                        <field name="type"/>
+                                        <field name="property_cost_method" groups="stock_account.group_inventory_valuation"/>
+                                        <field name="property_valuation"/>
+                                    </group>
+                                </group>
+                                <group name="account_stock_property" string="Account Stock Properties">
+                                    <field name="property_stock_account_input_categ_id" domain="[('deprecated', '=', False)]"/>
+                                    <field name="property_stock_account_output_categ_id" domain="[('deprecated', '=', False)]"/>
+                                    <field name="property_stock_valuation_account_id" domain="[('deprecated', '=', False)]"/>
+                                    <field name="property_stock_journal"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+</odoo>

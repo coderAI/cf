@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_view_promotion_coupon" model="ir.actions.act_window">
+            <field name="name">Coupons</field>
+            <field name="res_model">mb.coupon</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_promotion_id': [active_id],'default_promotion_id': active_id}</field>
+            <field name="domain">[('promotion_id', '=', active_id)]</field>
+        </record>
+
+        <record id="mb_promotion_view_tree" model="ir.ui.view">
+            <field name="name">mb.promotion.tree</field>
+            <field name="model">mb.promotion</field>
+            <field name="arch" type="xml">
+                <tree string="Promotion">
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="type"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mb_promotion_view_form" model="ir.ui.view">
+            <field name="name">mb.promotion.form</field>
+            <field name="model">mb.promotion</field>
+            <field name="arch" type="xml">
+                <form string="Promotion">
+                    <header>
+                        <button name="%(action_promotion_coupon_wizard)d" type="action" string="Create Coupon"
+                                class="btn-primary" groups="cf_promotion.group_promotion_manager,base.group_system"/>
+                        <button name="action_stop" type="object" string="Stop"
+                                groups="cf_promotion.group_promotion_manager,base.group_system"
+                                attrs="{'invisible': [('status', '!=', 'run')]}" class="btn"/>
+                        <button name="action_start" type="object" string="Start"
+                                groups="cf_promotion.group_promotion_manager,base.group_system"
+                                attrs="{'invisible': [('status', '!=', 'stop')]}" class="btn"/>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="action" name="%(action_view_promotion_coupon)d"
+                                icon="fa-ticket">
+                                <field string="Coupons" name="coupon_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" required="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <label for="date_from" string="Promotion Period"/>
+                                <div><field name="date_from" class="oe_inline" required="1"/> - <field name="date_to" class="oe_inline" required="1"/></div>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="conditional" string="Promotion Conditions">
+                                <header>
+                                    <button string="Add Promotion Conditions" class="btn-primary"
+                                            groups="cf_promotion.group_promotion_manager,base.group_system"
+                                            name="%(action_promotion_condition_wizard)d" type="action"/>
+                                </header>
+                                <group name="promotion_type">
+                                    <field name="type" widget="radio" options="{'horizontal': true}"/>
+                                </group>
+                                <!--Product Category-->
+                                <group name="product" string="Product Category" class="oe_promotion" color="#cd5c5c"
+                                       attrs="{'invisible': ['|', ('is_product_category', '=', False),
+                                                                  ('promotion_product_category', '=', False)]}">
+                                    <field name="is_product_category" invisible="1"/>
+                                    <field name="product_category_type" string="Type" widget="radio" options="{'horizontal': true}"
+                                           attrs="{'required': [('is_product_category', '=', True)]}"/>
+                                    <field name="promotion_product_category">
+                                        <tree create="false" edit="false">
+                                            <field name="display_name" string="Product Category"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <!--Register Time-->
+                                <group name="register_time" string="Register Time" class="oe_promotion"
+                                       attrs="{'invisible': ['|', ('is_register_time', '=', False),
+                                                                  ('promotion_register_time', '=', False)]}">
+                                    <field name="is_register_time" invisible="1"/>
+                                    <field name="register_time_type" string="Type" widget="radio" options="{'horizontal': true}"
+                                           attrs="{'required': [('is_register_time', '=', True)]}"/>
+                                    <field name="promotion_register_time" attrs="{'required': [('is_register_time', '=', True)]}">
+                                        <tree create="false" edit="false">
+                                            <field name="product_category_id" required="1"
+                                                   options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                            <field name="month_from"/>
+                                            <field name="uom_id" options="{'no_open': True}"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <!--Total Amount Order-->
+                                <group name="amount_order" string="Total Amount Order" class="oe_promotion"
+                                       attrs="{'invisible': ['|', ('is_amount_order', '=', False),
+                                                                  ('period_total_amount_order', '&lt;=', 0)]}">
+                                    <field name="is_amount_order" invisible="1"/>
+                                    <field name="period_total_amount_order"/>
+                                </group>
+                                <!--Amount Product-->
+                                <group name="amount_product" string="Amount Product" class="oe_promotion"
+                                       attrs="{'invisible': ['|', ('is_amount_product', '=', False),
+                                                                  ('promotion_amount_product', '=', False)]}">
+                                    <field name="is_amount_product" invisible="1"/>
+                                    <field name="amount_product_type" string="Type" widget="radio" options="{'horizontal': true}"
+                                           attrs="{'required': [('is_amount_product', '=', True)]}"/>
+                                    <field name="promotion_amount_product">
+                                        <tree create="false" edit="false">
+                                            <field name="product_category_id" required="1"
+                                                   options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                            <field name="amount"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <!--Order Type-->
+                                <group name="order_type" string="Order Type" class="oe_promotion"
+                                       attrs="{'invisible': ['|', ('is_order_type', '=', False),
+                                                                  ('order_type', '=', False)]}">
+                                    <field name="is_order_type" invisible="1"/>
+                                    <field name="order_type" widget="many2many_tags" domain="[('type', '=', 'order_type')]"
+                                            options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                </group>
+                                <!--Customer Type-->
+                                <group name="customer_type" string="Customer Type" class="oe_promotion"
+                                       attrs="{'invisible': ['|', ('is_customer_type', '=', False),
+                                                                  ('customer_type', '=', False)]}">
+                                    <field name="is_customer_type" invisible="1"/>
+                                    <field name="customer_type" widget="many2many_tags" domain="[('type', '=', 'customer')]"
+                                            options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                </group>
+                                <!--List Customer-->
+                                <group name="list_customer" string="List Customer" class="oe_promotion"
+                                       attrs="{'invisible': ['|', ('is_list_customer', '=', False),
+                                                                  ('customer_ids', '=', False)]}">
+                                    <field name="is_list_customer" invisible="1"/>
+                                    <field name="customer_ids" domain="[('customer', '=', True)]"
+                                           options="{'no_quick_create': True, 'no_create': True, 'no_open': True}">
+                                        <tree create="false" edit="false">
+                                            <field name="display_name" string="Customer"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <!--Customer Email-->
+                                <group name="customer_email" string="Customer Email" class="oe_promotion"
+                                       attrs="{'invisible': ['|', ('is_customer_email', '=', False),
+                                                                  ('customer_email', '=', False)]}">
+                                    <field name="is_customer_email" invisible="1"/>
+                                    <field name="customer_email" domain="[('is_customer_email', '=', True)]"
+                                           options="{'no_quick_create': True, 'no_create': True, 'no_open': True}">
+                                        <tree create="false" edit="false">
+                                            <field name="email"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <!--Customer Level-->
+                                <!--<group name="customer_level" string="Customer Level" class="oe_promotion"-->
+                                       <!--attrs="{'invisible': ['|', ('is_customer_level', '=', False),-->
+                                                                  <!--('customer_level', '=', False)]}">-->
+                                    <!--<field name="is_customer_level" invisible="1"/>-->
+                                    <!--<field name="customer_level" widget="many2many_tags" domain="[('type', '=', 'customer_level')]"-->
+                                            <!--options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>-->
+                                <!--</group>-->
+                                <!--Register Type-->
+                                <group name="register_type" string="Register Type" class="oe_promotion"
+                                       attrs="{'invisible': ['|', ('is_register_type', '=', False),
+                                                                  ('register_type', '=', False)]}">
+                                    <field name="is_register_type" invisible="1"/>
+                                    <field name="register_type" widget="many2many_tags" domain="[('type', '=', 'register')]"
+                                            options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                </group>
+                                <!--Count Product-->
+                                <group name="count_product" string="Count Product" class="oe_promotion"
+                                       attrs="{'invisible': ['|', ('is_count_product', '=', False),
+                                                                  ('count_product', '&lt;=', 0)]}">
+                                    <field name="is_count_product" invisible="1"/>
+                                    <field name="count_product"/>
+                                </group>
+                                <!--<group name="journal" attrs="{'invisible': ['|', ('is_journal', '=', False), ('journal_ids', '=', False)]}">-->
+                                    <!--<field name="is_journal" invisible="1"/>-->
+                                    <!--<field name="journal_ids" widget="many2many_tags"-->
+                                           <!--options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>-->
+                                <!--</group>-->
+                            </page>
+                            <page name="discount" string="Promotion Discount">
+                                <group name="discount_money" col="13">
+                                    <div colspan="3" style="margin-top: 5px">
+                                        <field name="is_discount_money"/>
+                                        <label for="is_discount_money"/>
+                                    </div>
+                                    <field name="promotion_discount_money" colspan="10" nolabel="1"
+                                        attrs="{'invisible': [('is_discount_money', '=', False)]}">
+                                        <tree editable="bottom">
+                                            <field name="product_category_id" required="1"
+                                                   options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                            <field name="setup_amount"/>
+                                            <field name="renew_amount"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group name="discount_percent" col="13">
+                                    <div colspan="3" style="margin-top: 5px">
+                                        <field name="is_discount_percent"/>
+                                        <label for="is_discount_percent"/>
+                                    </div>
+                                    <field name="promotion_discount_percent" colspan="10" nolabel="1"
+                                        attrs="{'invisible': [('is_discount_percent', '=', False)]}">
+                                        <tree editable="bottom">
+                                            <field name="product_category_id" required="1"
+                                                   options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                            <field name="setup_percent"/>
+                                            <field name="renew_percent"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group name="discount_used_time" col="13">
+                                    <div colspan="3" style="margin-top: 5px">
+                                        <field name="is_discount_used_time"/>
+                                        <label for="is_discount_used_time"/>
+                                    </div>
+                                    <field name="discount_used_time" colspan="10" nolabel="1"
+                                           context="{'default_type': 'used_time'}"
+                                           attrs="{'invisible': [('is_discount_used_time', '=', False)]}">
+                                        <tree editable="bottom">
+                                            <field name="type" invisible="1"/>
+                                            <field name="product_category_id" required="1"
+                                                   options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                            <field name="time"/>
+                                            <field name="uom_id"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group name="discount_product" col="13">
+                                    <div colspan="3" style="margin-top: 5px">
+                                        <field name="is_discount_product"/>
+                                        <label for="is_discount_product"/>
+                                    </div>
+                                    <field name="promotion_discount_product" colspan="10" nolabel="1"
+                                           context="{'default_type': 'product_free'}"
+                                           attrs="{'invisible': [('is_discount_product', '=', False)]}">
+                                        <tree editable="bottom">
+                                            <field name="type" invisible="1"/>
+                                            <field name="product_category_id" required="1"
+                                                   options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                            <field name="percent"/>
+                                            <field name="time"/>
+                                            <field name="uom_id"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <!--<group name="discount_point" col="13">-->
+                                    <!--<div colspan="3" style="margin-top: 5px">-->
+                                        <!--<field name="is_discount_point"/>-->
+                                        <!--<label for="is_discount_point"/>-->
+                                    <!--</div>-->
+                                    <!--<field name="discount_point" colspan="10" nolabel="1"-->
+                                           <!--attrs="{'invisible': [('is_discount_point', '=', False)]}"/>-->
+                                <!--</group>-->
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_mb_promotion" model="ir.actions.act_window">
+            <field name="name">Promotion</field>
+            <field name="res_model">mb.promotion</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

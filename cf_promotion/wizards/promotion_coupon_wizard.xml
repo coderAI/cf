@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="promotion_coupon_wizard_view_form" model="ir.ui.view">
+            <field name="name">Create Coupon</field>
+            <field name="model">promotion.coupon.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="type" widget="radio"/>
+                            <field name="expired_date"/>
+                            <field name="amount_coupon"/>
+                            <field name="coupon" attrs="{'invisible': [('type', '=', 'once')]}"/>
+                            <field name="invisible_on_sale"/>
+                        </group>
+                        <footer>
+                            <button name="create_coupon" string="Create" type="object" class="btn-primary"/>
+                            <button special="cancel" string="Cancel" type="object" class="oe_link" />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_promotion_coupon_wizard" model="ir.actions.act_window">
+            <field name="name">Create Coupon</field>
+            <field name="res_model">promotion.coupon.wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_order_contract_form">
+        <field name="name">view.order.contract.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="contract_id" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='action_view_invoice']" position="before">
+                <button name="action_open_contract" type="object" class="oe_stat_button" icon="fa-newspaper-o"
+                        attrs="{'invisible': [('contract_id', '=', False)]}" string="Contract"/>
+            </xpath>
+            <button name="action_confirm" position="after">
+                <button string="Create Contract &amp; Appendix" name="create_contract" type="object" class="oe_highlight"/>
+            </button>
+        </field>
+    </record>
+</odoo>

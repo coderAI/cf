@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_sale_order_upgrade_service_form_inherit">
+			<field name="name">view.sale.order.upgrade.service.form.inherit</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="cf_sale.view_sale_order_form_inherit"/>
+			<field name="arch" type="xml">
+                <xpath expr="//button[@name='%(cf_sale.action_addon_order_lines_wizard)d']" position="after">
+                    <button name="%(action_upgrade_service_wizard)d"
+                        string="UPGRADE SERVICE" type="action" class="oe_highlight"
+                        states="not_received,draft"/>
+				</xpath>
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="is_upgrade" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

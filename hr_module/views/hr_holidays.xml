@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_hr_holidays_form_inherit">
+        <field name="name">view.hr.holidays.form.inherit</field>
+        <field name="model">hr.holidays</field>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='holiday_status_id']" position="after">
+                <field name="leave_type" attrs="{'invisible': [('type', '!=', 'remove')],
+                                                 'readonly': [('state', 'not in', ('draft', 'confirm'))]}"/>
+            </xpath>
+            <xpath expr="//button[@name='action_approve']" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+                <attribute name="attrs">{'invisible': [('approve', '=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='number_of_days_temp']" position="attributes">
+                <attribute name="attrs">{'invisible': [('type', '=', 'remove')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payslip_status']" position="after">
+                <field name="approve" invisible="1"/>
+                <field name="approver" invisible="1" widget="many2many_tags"/>
+            </xpath>
+            <xpath expr="//field[@name='number_of_days_temp']" position="after">
+                <field name="nod" class="oe_inline" attrs="{'invisible': [('type', '!=', 'remove')]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

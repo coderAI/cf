@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Report contract-->
+    <!--Personal-->
+    <record id="cf_contract_report" model="ir.actions.report.xml">
+      <field name="name">Contracts</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract</field>
+      <field name="report_name">cf_contract_person_report</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/HDDV_PERSON.odt</field>
+    </record>
+    <!--Company-->
+    <record id="cf_contract_company_report" model="ir.actions.report.xml">
+      <field name="name">Contracts</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract</field>
+      <field name="report_name">cf_contract_company_report</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/HDDV_COMPANY.odt</field>
+    </record>
+
+    <!--Appendix 1800-->
+    <record id="cf_contract_appendix_1800_report" model="ir.actions.report.xml">
+      <field name="name">Appendix 1800 Person</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_1800_person</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_1800_PERSON.odt</field>
+    </record>
+    <record id="cf_contract_appendix_1800_company_report" model="ir.actions.report.xml">
+      <field name="name">Appendix 1800 Company</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_1800_company</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_1800_COMPANY.odt</field>
+    </record>
+
+    <!--Appendix 1900-->
+    <record id="cf_contract_appendix_1900_report" model="ir.actions.report.xml">
+      <field name="name">Appendix 1900 Person</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_1900_person</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_1900_PERSON.odt</field>
+    </record>
+    <record id="cf_contract_appendix_1900_company_report" model="ir.actions.report.xml">
+      <field name="name">Appendix 1900 Company</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_1900_company</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_1900_COMPANY.odt</field>
+    </record>
+
+    <!--Appendix Mobifone-->
+    <record id="cf_contract_appendix_mobifone_report" model="ir.actions.report.xml">
+      <field name="name">Appendix Mobifone Person</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_mobifone_person</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_MOBIFONE_PERSON.odt</field>
+    </record>
+    <record id="cf_contract_appendix_mobifone_company_report" model="ir.actions.report.xml">
+      <field name="name">Appendix Mobifone Company</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_mobifone_company</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_MOBIFONE_COMPANY.odt</field>
+    </record>
+
+    <!--Appendix CloudFone-->
+    <record id="cf_contract_appendix_cloudfone_report" model="ir.actions.report.xml">
+      <field name="name">Appendix CloudFone Person</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_cloudfone_person</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_CLOUDFONE_PERSON.odt</field>
+    </record>
+    <record id="cf_contract_appendix_cloudfone_company_report" model="ir.actions.report.xml">
+      <field name="name">Appendix CloudFone Company</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_cloudfone_company</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_CLOUDFONE_COMPANY.odt</field>
+    </record>
+
+    <!--Appendix Equipment-->
+    <record id="cf_contract_appendix_equipment_report" model="ir.actions.report.xml">
+      <field name="name">Appendix Equipment Person</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_equipment_person</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_TB_PERSON.odt</field>
+    </record>
+    <record id="cf_contract_appendix_equipment_company_report" model="ir.actions.report.xml">
+      <field name="name">Appendix Equipment Company</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_equipment_company</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_TB_COMPANY.odt</field>
+    </record>
+
+    <!--Appendix Assistant-->
+    <record id="cf_contract_appendix_assistant_report" model="ir.actions.report.xml">
+      <field name="name">Appendix Assistant Person</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_assistant_person</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_ASSISTANT_PERSON.odt</field>
+    </record>
+    <record id="cf_contract_appendix_assistant_company_report" model="ir.actions.report.xml">
+      <field name="name">Appendix Assistant Company</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_assistant_company</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_ASSISTANT_COMPANY.odt</field>
+    </record>
+
+    <!--Appendix Upgrade-->
+    <record id="cf_contract_appendix_upgrade_report" model="ir.actions.report.xml">
+      <field name="name">Appendix Upgrade Person</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_upgrade_person</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_UPGRADE_PERSON.odt</field>
+    </record>
+    <record id="cf_contract_appendix_upgrade_company_report" model="ir.actions.report.xml">
+      <field name="name">Appendix Upgrade Company</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">cf.contract.appendix</field>
+      <field name="report_name">cf_contract_appendix_upgrade_company</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_contract</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PLHD_UPGRADE_COMPANY.odt</field>
+    </record>
+</odoo>

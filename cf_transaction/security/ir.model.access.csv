@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_money_transfer_user,money.transfer user,model_money_transfer,cf_security.group_transaction_user,1,0,0,0
+access_money_transfer_manager,money.transfer manager,model_money_transfer,cf_security.group_transaction_manager,1,1,1,0
+access_money_transfer_system,money.transfer system,model_money_transfer,base.group_system,1,1,1,1
+access_transaction_config_settings_keyword_user,transaction.config.settings.keyword user,model_transaction_config_settings_keyword,cf_security.group_transaction_user,1,0,0,0
+access_transaction_config_settings_keyword_manager,transaction.config.settings.keyword manager,model_transaction_config_settings_keyword,cf_security.group_transaction_manager,1,1,1,0
+access_transaction_config_settings_keyword_system,transaction.config.settings.keyword system,model_transaction_config_settings_keyword,base.group_system,1,1,1,1
+access_bank_transaction_user,bank.transaction user,model_bank_transaction,cf_security.group_transaction_user,1,0,0,0
+access_bank_transaction_manager,bank.transaction manager,model_bank_transaction,cf_security.group_transaction_manager,1,1,1,0
+access_bank_transaction_system,bank.transaction system,model_bank_transaction,base.group_system,1,1,1,1
+
+access_account_payment,access_account_payment,account.model_account_payment,sales_team.group_sale_salesman,1,1,1,0
+access_account_payment_method_sale,account.payment.method sale,account.model_account_payment_method,sales_team.group_sale_salesman,1,0,0,0
+access_account_account_type_sale,account.account.type sale,account.model_account_account_type,sales_team.group_sale_salesman,1,0,0,0
+sale.access_sale_account_journal,account.journal sale order.user,account.model_account_journal,sales_team.group_sale_salesman,1,1,0,0
+
+access_res_users_sale,res.users sale,base.model_res_users,sales_team.group_sale_salesman,1,0,0,0

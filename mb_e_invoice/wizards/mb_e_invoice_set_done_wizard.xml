@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+        <record id="view_mb_e_invoice_set_done_wizard_form" model="ir.ui.view">
+            <field name="name">view.mb.e.invoice.set.done.wizard.form</field>
+            <field name="model">mb.e.invoice.set.done.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Stages Invoice">
+                    <sheet>
+
+
+                            <field name="mb_e_invoice_set_done_line_wizard" height="288">
+
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="sequence" widget="handler" invisible="1"/>
+                                    <field name="Code" required="1" string="Product Code"/>
+                                    <field name="ProdName" required="1" string="Product Name"/>
+                                    <field name="ProdUnit" required="1" string="UOM"/>
+                                    <field name="ProdQuantity" required="1" string="Time/Quantity"/>
+                                    <field name="ProdPrice" readonly="1" string="Price"/>
+                                    <field name="VATRate_str" readonly="1" string="Tax"/>
+                                    <field name="VATAmount" readonly="1" string="Tax Amount"/>
+                                    <field name="Total" readonly="1" string="Sub Total"/>
+                                    <field name="Amount" readonly="1" string="Total"/>
+<!--                                    <field name="VATAmount_str" readonly="1"/>-->
+                                </tree>
+                            </field>
+
+                        <footer>
+                            <button class="btn-primary" type="object"
+                                    name="save_btn" string="Confirm"/>
+                            <button class="btn-default" special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

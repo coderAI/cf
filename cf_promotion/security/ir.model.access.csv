@@ -1,0 +1,36 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mb_promotion_promotion_user,mb.promotion user,model_mb_promotion,group_promotion_user,1,0,0,0
+access_mb_promotion_promotion_manager,mb.promotion manager,model_mb_promotion,group_promotion_manager,1,1,1,0
+access_mb_promotion_manager,mb.promotion manager,model_mb_promotion,base.group_system,1,1,1,1
+
+access_promotion_register_time_promotion_user,promotion.register.time user,model_promotion_register_time,group_promotion_user,1,0,0,0
+access_promotion_register_time_promotion_manager,promotion.register.time manager,model_promotion_register_time,group_promotion_manager,1,1,1,1
+access_promotion_register_time_manager,promotion.register.time manager,model_promotion_register_time,base.group_system,1,1,1,1
+
+access_promotion_amount_product_promotion_user,promotion.amount.product user,model_promotion_amount_product,group_promotion_user,1,0,0,0
+access_promotion_amount_product_promotion_manager,promotion.amount.product manager,model_promotion_amount_product,base.group_system,1,1,1,1
+access_promotion_amount_product_manager,promotion.amount.product manager,model_promotion_amount_product,base.group_system,1,1,1,1
+
+access_promotion_discount_money_promotion_user,promotion.discount.money user,model_promotion_discount_money,group_promotion_user,1,0,0,0
+access_promotion_discount_money_promotion_manager,promotion.discount.money manager,model_promotion_discount_money,group_promotion_manager,1,1,1,1
+access_promotion_discount_money_manager,promotion.discount.money manager,model_promotion_discount_money,base.group_system,1,1,1,1
+
+access_promotion_discount_used_time_promotion_user,promotion.discount.used.time user,model_promotion_discount_used_time,group_promotion_user,1,0,0,0
+access_promotion_discount_used_time_promotion_manager,promotion.discount.used.time manager,model_promotion_discount_used_time,group_promotion_manager,1,1,1,1
+access_promotion_discount_used_time_manager,promotion.discount.used.time manager,model_promotion_discount_used_time,base.group_system,1,1,1,1
+
+access_promotion_discount_percent_promotion_user,promotion.discount.percent user,model_promotion_discount_percent,group_promotion_user,1,0,0,0
+access_promotion_discount_percent_promotion_manager,promotion.discount.used.time manager,model_promotion_discount_percent,group_promotion_manager,1,1,1,1
+access_promotion_discount_percent_manager,promotion.discount.used.time manager,model_promotion_discount_percent,base.group_system,1,1,1,1
+
+access_promotion_customer_email_promotion_user,promotion.customer.email user,model_promotion_customer_email,group_promotion_user,1,0,0,0
+access_promotion_customer_email_promotion_manager,promotion.customer.email manager,model_promotion_customer_email,group_promotion_manager,1,1,1,1
+access_promotion_customer_email_manager,promotion.customer.email manager,model_promotion_customer_email,base.group_system,1,1,1,1
+
+access_promotion_total_product_discount_promotion_user,promotion.total.product.discount user,model_promotion_total_product_discount,group_promotion_user,1,0,0,0
+access_promotion_total_product_discount_promotion_manager,promotion.total.product.discount manager,model_promotion_total_product_discount,group_promotion_manager,1,1,1,1
+access_promotion_total_product_discount_manager,promotion.total.product.discount manager,model_promotion_total_product_discount,base.group_system,1,1,1,1
+
+access_mb_coupon_promotion_user,mb.coupon user,model_mb_coupon,group_promotion_user,1,0,0,0
+access_mb_coupon_promotion_manager,mb.coupon manager,model_mb_coupon,group_promotion_manager,1,1,1,0
+access_mb_coupon_manager,mb.coupon manager,model_mb_coupon,base.group_system,1,1,1,1

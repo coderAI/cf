@@ -1,0 +1,1 @@
+from . import remove_attendance_wizard

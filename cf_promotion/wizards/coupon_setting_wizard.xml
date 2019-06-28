@@ -1,0 +1,35 @@
+<odoo>
+    <record id="coupon_setting_view_form" model="ir.ui.view">
+        <field name="name">coupon.setting.wizard</field>
+        <field name="model">coupon.setting.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="expired_date" required="1"/>
+                            <field name="invisible_on_sale"/>
+                        </group>
+                        <group>
+                            <field name="max_used_time" required="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="btn_settings" string="Settings" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_coupon_setting" model="ir.actions.act_window">
+        <field name="name">Coupon Settings</field>
+        <field name="res_model">coupon.setting.wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

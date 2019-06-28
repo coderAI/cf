@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_agency_price user,product.agency.price user,model_product_agency_price,base.group_user,1,0,0,0
+access_product_agency_price sale_manager,product.agency.price sale_manager,model_product_agency_price,sales_team.group_sale_manager,1,1,1,0
+access_product_agency_price manager,product.agency.price sale,model_product_agency_price,base.group_system,1,1,1,1

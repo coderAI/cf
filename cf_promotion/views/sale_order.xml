@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_cf_sale_order_update_price_odoo_form_inherit">
+        <field name="name">view.cf.sale.order.update_price_odoo.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d']" position="before">
+                <button name="update_price_by_odoo" string="Update Price" type="object"
+                        states="draft" class="oe_highlight" context="{'add_coupon': True}"/>
+                <button name="%(action_apply_remove_coupon)d" string="Apply Coupon" type="action"
+                        states="draft" class="oe_highlight"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

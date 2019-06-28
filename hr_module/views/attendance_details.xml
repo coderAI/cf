@@ -1,0 +1,22 @@
+<odoo>
+    <record id="attendance_details_tree" model="ir.ui.view">
+        <field name="name">attendance.details.tree</field>
+        <field name="model">hr.attendance.details</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="employee_id"/>
+                <field name="card_no"/>
+                <field name="date_att"/>
+                <field name="check_in_out"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_attendance_details" model="ir.actions.act_window">
+        <field name="name">Attendance Details</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.attendance.details</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+    </record>
+</odoo>

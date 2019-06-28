@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!--Source-->
+        <record id="view_cf_sale_order_source_tree" model="ir.ui.view">
+            <field name="name">view.sale.order.source.tree</field>
+            <field name="model">sale.order.source</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="code" required="1"/>
+                    <field name="name" required="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_view_cf_sale_order_source" model="ir.actions.act_window">
+            <field name="name">CloudFone Source</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.source</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+        <menuitem id="menu_cf_sale_order_source" name="CloudFone Source"
+				  action="action_view_cf_sale_order_source"
+                  parent="sales_team.menu_sale_config"/>
+
+		<record model="ir.ui.view" id="view_cf_sale_quotation_tree_inherit">
+			<field name="name">view.sale.quotation.tree.inherit</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_quotation_tree"/>
+			<field name="arch" type="xml">
+				<field name="state" position="before">
+					<field name="type" />
+				</field>
+				<field name="name" position="before">
+					<field name="billing_type" invisible="context.get('for_sale', False)"/>
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_cf_sale_order_tree_inherit">
+			<field name="name">view.sale.order.tree.inherit</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_tree"/>
+			<field name="arch" type="xml">
+				<field name="invoice_status" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</field>
+				<field name="state" position="attributes">
+					<attribute name="invisible">0</attribute>
+				</field>
+				<field name="state" position="before">
+					<field name="type" readonly="0"/>
+				</field>
+				<field name="name" position="before">
+					<field name="billing_type" invisible="context.get('for_sale', False)"/>
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_sale_order_form_inherit">
+			<field name="name">view.sale.order.form.inherit</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
+			<field name="arch" type="xml">
+				<button name="action_done" position="attributes">
+					<attribute name="string">Active</attribute>
+					<attribute name="states">paid</attribute>
+				</button>
+				<xpath expr="//header/button[@name='action_confirm' and @class='o_sale_confirm']" position="replace">
+					<button name="action_confirm" string="Confirm Sale" class="o_sale_confirm" type="object"
+							attrs="{'invisible': ['|',
+											'&amp;', ('billing_type', '=', 'prepaid'), ('state', '!=', 'draft'),
+											('billing_type', '=', 'postpaid')]}"/>
+					<button name="action_confirm" string="Confirm Sale" class="o_sale_confirm oe_postpaid" type="object"
+							groups="sales_team.group_sale_salesman_all_leads"
+							attrs="{'invisible': ['|',
+											('billing_type', '=', 'prepaid'),
+											'&amp;', ('billing_type', '=', 'postpaid'), ('state', '!=', 'waiting')]}"/>
+				</xpath>
+				<button name="action_draft" position="attributes">
+					<attribute name="states">cancel,refuse</attribute>
+				</button>
+				<button name="action_quotation_send" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</button>
+				<xpath expr="//button[@name='action_quotation_send' and not(@class)]" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                    <attribute name="states">draft,sale,paid,done</attribute>
+                </xpath>
+				<button name="print_quotation" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</button>
+				<xpath expr="//button[@name='print_quotation' and not(@class)]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+				<field name="state" position="replace">
+					<field name="state" widget="statusbar" statusbar_visible="draft,sale,paid,done"/>
+				</field>
+				<button name="action_confirm" position="before">
+					<button name="sent_to_approve" string="Send to Approve" type="object"
+							attrs="{'invisible': ['|', ('billing_type', '!=', 'postpaid'), ('state', '!=', 'draft')]}"/>
+				</button>
+				<button name="action_confirm" position="after">
+					<button name="assign_to_me" string="Assigned to me" type="object"
+							attrs="{'invisible': [('user_id', '!=', False)]}"/>
+					<button name="sent_to_refuse" string="Refuse" type="object"
+							groups="sales_team.group_sale_salesman_all_leads"
+							attrs="{'invisible': ['|', ('billing_type', '!=', 'postpaid'), ('state', '!=', 'waiting')]}"/>
+				</button>
+				<button name="action_cancel" position="attributes">
+					<attribute name="states"/>
+					<attribute name="attrs">{'invisible': [('cancel_show', '!=', True)]}</attribute>
+				</button>
+				<field name="user_id" position="replace" />
+				<field name="team_id" position="replace" />
+				<field name="partner_id" position="attributes">
+					<attribute name="options">{'no_quick_create': True}</attribute>
+					<attribute name="context">{'current_model': 'sale_order', 'sale_team_id': team_id}</attribute>
+					<attribute name="attrs">{'readonly': ['|', ('state', 'not in', ('draft',)), (('edit_info', '=', True))]}</attribute>
+				</field>
+				<field name="order_line" position="attributes">
+					<attribute name="attrs">{'readonly': ['|', ('state', '!=', 'draft'), (('edit_info', '=', True))]}</attribute>
+					<attribute name="context">{'default_type': type, 'type': type}</attribute>
+				</field>
+				<field name="partner_id" position="after">
+					<field name="user_id" readonly="1"/>
+					<field name="team_id" readonly="1"/>
+					<field name="billing_type"
+						   attrs="{'readonly': ['|', '|', ('state', '!=', 'draft'), ('edit_info', '=', True), ('type', '=', 'for_sale')],
+						   		   'required': [('type', '=', 'for_rent')]}"/>
+					<field name="cancel_show" invisible="1"/>
+					<field name="edit_info" invisible="1"/>
+					<!--<field name="category_id" domain="[('primary', '=', True)]"-->
+						   <!--options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>-->
+				</field>
+				<field name="confirmation_date" position="after">
+					<field name="coupon" attrs="{'readonly': ['|', ('state', '!=', 'draft'), ('type', '=', 'for_sale')]}"/>
+					<field name="type" readonly="0" invisible="1" required="1"/>
+					<field name="cf_source_id" readonly="1" required="1"
+						   options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+				</field>
+				<field name="confirmation_date" position="attributes">
+					<attribute name="invisible">0</attribute>
+				</field>
+				<field name="date_order" position="attributes">
+					<attribute name="attrs">{'readonly': ['|', ('state', '!=', 'draft'), (('edit_info', '=', True))]}</attribute>
+				</field>
+				<field name="validity_date" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</field>
+				<xpath expr="//group[@name='sales_person']/../.." position="attributes">
+					<attribute name="groups">base.group_system,sales_team.group_sale_manager</attribute>
+				</xpath>
+				<xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="before">
+					<field name="register_type" invisible="context.get('for_sale', False)"/>
+					<field name="product_category_id"
+						   options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+				</xpath>
+
+				<xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="after">
+					<field name="parent_product_id" invisible="context.get('for_sale', False)"
+						   options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+					<field name="time" invisible="context.get('for_sale', False)"
+						   required="not context.get('for_sale', False)"/>
+					<field name="original_time" invisible="1"/>
+					<!--<field name="type" invisible="1"/>-->
+				</xpath>
+
+				<xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
+					<!--<attribute name="readonly">context.get('for_sale', False)</attribute>-->
+					<attribute name="readonly">0</attribute>
+				</xpath>
+				<xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="before">
+					<field name="register_price" invisible="context.get('for_sale', False)"
+						   required="not context.get('for_sale', False)"/>
+					<field name="renew_price" invisible="context.get('for_sale', False)"/>
+					<field name="capacity_price" invisible="context.get('for_sale', False)"/>
+					<field name="up_price" invisible="context.get('for_sale', False)"/>
+					<field name="notes" invisible="1"/>
+					<field name="active_show" invisible="1"/>
+				</xpath>
+
+				<xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+					<field name="service_status" invisible="context.get('for_sale', False)"/>
+					<field name="date_active" invisible="context.get('for_sale', False)"/>
+					<button string="Activate" name="activate" type="object"
+							attrs="{'invisible': [('active_show', '=', False)]}"/>
+				</xpath>
+
+				<xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="attributes">
+					<attribute name="invisible">0</attribute>
+					<attribute name="readonly">context.get('for_sale', False)</attribute>
+				</xpath>
+
+				<xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
+					<attribute name="invisible">not context.get('for_sale', False)</attribute>
+				</xpath>
+
+				<xpath expr="//field[@name='order_line']/tree/field[@name='qty_delivered']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+
+				<xpath expr="//field[@name='order_line']/tree/field[@name='qty_invoiced']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+
+				<xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="attributes">
+					<attribute name="invisible">not context.get('for_sale', False)</attribute>
+					<!--<attribute name="readonly">context.get('for_sale', False)</attribute>-->
+					<attribute name="readonly">0</attribute>
+				</xpath>
+
+				<xpath expr="//field[@name='order_line']/tree/field[@name='product_uom']" position="attributes">
+					<attribute name="readonly">0</attribute>
+				</xpath>
+
+				<xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="attributes">
+					<attribute name="domain">[('categ_id','=', product_category_id)]</attribute>
+					<attribute name="options">{'no_quick_create': True, 'no_create': True, 'no_open': True}</attribute>
+				</xpath>
+
+				<xpath expr="//field[@name='order_line']/tree" position="attributes">
+					<attribute name="create">0</attribute>
+				</xpath>
+				<xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="after">
+					<field name="promotion_discount" readonly="1"/>
+				</xpath>
+				<xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="before">
+					<field name="price_subtotal_no_discount" readonly="1" invisible="context.get('for_sale', False)"/>
+				</xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='order_line']//tree//field[@name='time']" position="before">
+                    <field name="license" readonly="1" invisible="context.get('for_sale', False)"/>
+                </xpath>
+				<xpath expr="//notebook/page/field[@name='order_line']" position="before">
+					<header invisible="context.get('for_sale', False)">
+						<button name="%(action_service_order_lines_wizard)d"
+							string="ADD SERVICES" type="action" class="oe_highlight"
+							context="{'type':'Add addon','sale_order_id':active_id}"
+							states="draft" />
+						<button name="%(action_addon_order_lines_wizard)d" string="ADD ADDONS"
+							type="action" class="oe_highlight"
+							context="{'type':'Add addon','sale_order_id':active_id}"
+							states="draft" />
+					</header>
+				</xpath>
+				<!-- Invisible field Payment Term -->
+				<field name="payment_term_id" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_sale_quotation_search_inherit">
+			<field name="name">view.sale.quotation.search.inherit</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation" />
+			<field name="arch" type="xml">
+				<xpath expr="//filter[@name='sales']" position="after">
+					<filter string="Open" name="filter_open"
+						domain="[('state','in', ('sale','completed'))]" />
+				</xpath>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_sale_quotation_search_state_inherit">
+			<field name="name">view.sale.quotation.search.state.inherit</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_sales_order_filter" />
+			<field name="arch" type="xml">
+				<group expand="0" string="Group By">
+					<filter string="Status" name="group_state" domain="[]" context="{'group_by':'state'} " />
+				</group>
+			</field>
+		</record>
+
+		<record id="sale.action_orders" model="ir.actions.act_window">
+			<field name="domain">[('type', '=', 'for_rent'), ('state', 'not in', ('draft', 'waiting'))]</field>
+			<field name="context">{'default_type': 'for_rent', 'for_sale': False}</field>
+		</record>
+
+		<record id="sale.action_quotations" model="ir.actions.act_window">
+			<field name="domain">[('type', '=', 'for_rent'), ('state', 'in', ('draft', 'waiting'))]</field>
+			<field name="context">{'hide_sale': True, 'default_type': 'for_rent', 'for_sale': False}</field>
+		</record>
+
+		<record id="action_quotations_for_sale" model="ir.actions.act_window">
+            <field name="name">Quotations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="sale.view_quotation_tree"/>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+            <field name="context">{'hide_sale': True, 'default_type': 'for_sale', 'for_sale': True, 'default_billing_type': 'prepaid'}</field>
+			<field name="domain">[('type', '=', 'for_sale'), ('state', 'in', ('draft', 'waiting'))]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Create a Quotation, the first step of a new sale.
+              </p><p>
+                Your next actions should flow efficiently: confirm the Quotation
+                to a Sale Order, then create the Invoice and collect the Payment.
+              </p><p>
+                Note that once a Quotation becomes a Sale Order, it will be moved
+                from the Quotations list to the Sales Order list.
+              </p>
+            </field>
+        </record>
+
+		<menuitem id="menu_for_rent" parent="sales_team.menu_sales" name="For Rent"
+                sequence="11"/>
+		<menuitem id="sale.menu_sale_quotations"
+                action="sale.action_quotations" parent="menu_for_rent"
+                sequence="11"/>
+		<menuitem action="sale.action_orders"
+            id="sale.menu_sale_order" parent="menu_for_rent"
+            sequence="12" groups="sales_team.group_sale_salesman,sales_team.group_sale_manager"/>
+		<!--<record id="sale.menu_sale_quotations" model="ir.ui.menu">-->
+			<!--<field name="parent">menu_for_rent</field>-->
+        <!--</record>-->
+		<!--<record id="sale.menu_sale_order" model="ir.ui.menu">-->
+            <!--<field name="parent">menu_for_rent</field>-->
+        <!--</record>-->
+
+		<menuitem id="menu_for_sale" parent="sales_team.menu_sales" name="For Sale"
+                sequence="11"/>
+		<menuitem id="menu_sale_quotations_for_sale"
+                action="action_quotations_for_sale" parent="menu_for_sale"
+                sequence="11"/>
+
+		<record id="action_orders_for_sale" model="ir.actions.act_window">
+            <field name="name">Sales Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="context">{'default_type': 'for_sale', 'for_sale': True, 'default_billing_type': 'prepaid'}</field>
+            <field name="domain">[('type', '=', 'for_sale'), ('state', 'not in', ('draft', 'waiting'))]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create a Quotation, the first step of a new sale.
+                </p><p>
+                    Once the quotation is confirmed, it becomes a sales order.
+                    You'll be able to invoice it and collect payments.
+                    From the <i>Sales Orders</i> menu, you can track delivery
+                    orders or services.
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="action_orders_for_sale"
+            id="menu_sale_order_for_sale" parent="menu_for_sale"
+            sequence="12" groups="sales_team.group_sale_salesman,sales_team.group_sale_manager"/>
+
+		<menuitem id="sales_team.menu_sale_report" name="Reports"
+				  parent="sales_team.menu_base_partner"
+				  sequence="99" groups="sales_team.group_sale_salesman"/>
+		<!--<record id="sale.menu_product_template_action" model="ir.ui.menu">-->
+			<!--<field name="groups_id" eval="[(4, ref('base.group_system'))]"/>-->
+		<!--</record>-->
+	</data>
+</odoo>

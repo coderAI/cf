@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="cf_sale_order_source_normal" model="sale.order.source">
+            <field name="sequence">1</field>
+            <field name="name">Normal</field>
+            <field name="code">normal</field>
+        </record>
+        <record id="cf_sale_order_source_renew" model="sale.order.source">
+            <field name="sequence">2</field>
+            <field name="name">Renew</field>
+            <field name="code">renew</field>
+        </record>
+        <record id="cf_sale_order_source_capacity" model="sale.order.source">
+            <field name="sequence">3</field>
+            <field name="name">Capacity</field>
+            <field name="code">capacity</field>
+        </record>
+        <record id="cf_sale_order_source_online" model="sale.order.source">
+            <field name="sequence">4</field>
+            <field name="name">Online</field>
+            <field name="code">online</field>
+        </record>
+    </data>
+</odoo>

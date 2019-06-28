@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="mb_promotion_kanban" model="ir.ui.view">
+        <field name="name">mb.promotion.kanban</field>
+        <field name="model">mb.promotion</field>
+        <field name="mode">primary</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard">
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div class="o_kanban_card_header">
+                                <div class="col-xs-9 o_kanban_card_header_title">
+                                    <div class="o_primary">
+                                        <p>
+                                            <a type="object" name="open_coupon_action" style="white-space: normal;">
+                                                <t t-esc="record.name.value"/>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#">More
+                                        <i class="fa fa-caret-down"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content o_visible">
+                                <div class="row">
+                                    <div class="col-xs-4 o_kanban_primary_left">
+                                        <button class="btn btn-primary" name="%(action_view_promotion_coupon)d"
+                                                type="action">Coupon(s)
+                                        </button>
+                                    </div>
+                                    <div class="col-xs-8 o_kanban_primary_right">
+                                        <div t-if="record.date_from.value" class="row">
+                                            <div class="col-xs-3" style="padding-left:8px">
+                                                <b>From</b>
+                                            </div>
+                                            <div class="col-xs-9" style="padding-left:8px">
+                                                <span>
+                                                    <t t-esc="record.date_from.value"/>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div t-if="record.date_to.value" class="row">
+                                            <div class="col-xs-3" style="padding-left:8px">
+                                                <b>To</b>
+                                            </div>
+                                            <div class="col-xs-9" style="padding-left:8px">
+                                                <span>
+                                                    <t t-esc="record.date_to.value"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 text-right">
+                                                <a type="object" name="open_sale_order_action">
+                                                    Sale Order(s)
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_manage_pane o_invisible">
+                                <div class="row">
+                                    <!--<div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_view">
+                                        <div class="o_kanban_card_manage_title">
+                                            <span>View</span>
+                                        </div>
+                                        <div>
+                                            <a name="978" type="action">Sessions</a>
+                                        </div>
+                                        <div>
+                                            <a name="979" type="action">Sales Orders</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_new">
+                                        <div class="o_kanban_card_manage_title">
+                                            <span>Reports</span>
+                                        </div>
+                                        <div>
+                                            <a name="980" type="action">Orders</a>
+                                        </div>
+                                    </div>-->
+                                </div>
+
+                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                    <div class="col-xs-12 text-right">
+                                        <a type="edit">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_mb_promotion_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">mb.promotion</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="context">{}</field>
+        <field name="domain">[('status','=','run')]</field>
+    </record>
+</odoo>

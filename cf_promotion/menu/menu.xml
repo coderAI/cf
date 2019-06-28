@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem name="Promotion" id="menu_main_promotion" web_icon="cf_promotion,static/description/icon.jpg"
+              groups="cf_promotion.group_promotion_manager"/>
+
+    <menuitem id="mb_promotion_menu_dashboard" parent="menu_main_promotion" action="action_mb_promotion_dashboard"
+              sequence="1" groups="cf_promotion.group_promotion_manager"/>
+    <menuitem id="mb_promotion_menu" parent="menu_main_promotion" action="action_mb_promotion"
+              sequence="2" groups="cf_promotion.group_promotion_manager"/>
+    <menuitem id="mb_coupon_menu" parent="menu_main_promotion" action="action_mb_coupon"
+              sequence="3" groups="cf_promotion.group_promotion_manager"/>
+    <menuitem id="mb_coupon_menu_for_sale" action="action_mb_coupon_for_sale"
+              sequence="30" parent="sales_team.menu_base_partner"/>
+</odoo>

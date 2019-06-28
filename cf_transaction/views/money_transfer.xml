@@ -1,0 +1,90 @@
+<odoo>
+    <record id="cf_money_transfer_form" model="ir.ui.view">
+        <field name="name">Bank Transaction</field>
+        <field name="model">money.transfer</field>
+        <field name="arch" type="xml">
+            <form string="Invoice Number">
+                <header>
+                    <button name="add_bank_transaction" string="Transfer" type="object" class="btn-primary"
+                            groups="base.group_system,account.group_account_manager,cf_security.group_transaction_manager"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="posted,reconciled"/>
+                </header>
+                <sheet>
+                    <h2>
+                        <field name="code" readonly="True" placeholder="Code ..."
+                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </h2>
+                    <group>
+                        <group>
+                            <field name="company_id" invisible="True"/>
+                            <field name="journal_id" required="1"
+                                   options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"
+                                   domain="[('type', '=', 'bank'), ('company_id', '=', company_id)]"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="journal_number" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="date" required="True" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="amount" required="True" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="description" required="True" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="transaction_id" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="cf_money_transfer_tree" model="ir.ui.view">
+        <field name="name">Bank Transaction</field>
+        <field name="model">money.transfer</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="journal_id"/>
+                <field name="journal_number"/>
+                <field name="code"/>
+                <field name="date"/>
+                <field name="amount"/>
+                <field name="description"/>
+                <field name="transaction_id"/>
+                <field name="state"/>
+                <button name="add_bank_transaction" type="object" string="Transfer" class="oe_highlight"
+                        groups="base.group_system,account.group_account_manager"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_money_transfer_filter" model="ir.ui.view">
+            <field name="name">money.transfer.search</field>
+            <field name="model">money.transfer</field>
+            <field name="arch" type="xml">
+                <search string="Bank Transaction">
+                    <field name="code"/>
+                    <field name="transaction_id"/>
+                    <field name="journal_number"/>
+                    <field name="description"/>
+                    <field name="amount"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Journal" domain="[]" context="{'group_by':'journal_id'}"/>
+                        <filter string="Date" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Journal Number" domain="[]" context="{'group_by':'journal_number'}"/>
+                    </group>
+                </search>
+             </field>
+         </record>
+
+    <record id="action_money_transfer" model="ir.actions.act_window">
+        <field name="name">Bank Transaction</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">money.transfer</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

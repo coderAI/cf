@@ -1,0 +1,31 @@
+<odoo>
+    <menuitem id="menu_attendance_details" string="Attendance Details" parent="hr_attendance.menu_hr_attendance_manage_attendances"
+              action="action_attendance_details" groups="hr.group_hr_attendance" sequence="10"/>
+
+    <menuitem id="hr_attendance.menu_hr_attendance_report"
+              name="Reports"
+              parent="hr_attendance.menu_hr_attendance_root"
+              sequence="30" groups="base.group_user"/>
+
+    <menuitem id="attendance_report_menu"
+              parent="hr_attendance.menu_hr_attendance_report"
+              action="mb_action_attendance_report"
+              groups="base.group_user"
+              sequence="10"/>
+
+    <menuitem id="hr_attendance.menu_hr_attendance_manage_attendances"
+              name="Manage Attendances"
+              parent="hr_attendance.menu_hr_attendance_root" sequence="20"
+              groups="hr.group_hr_attendance"/>
+    <menuitem id="hr_attendance.menu_hr_attendance_view_attendances"
+              name="Attendances"
+              parent="hr_attendance.menu_hr_attendance_manage_attendances" sequence="10"
+              groups="hr.group_hr_attendance"
+              action="hr_attendance.hr_attendance_action"/>
+
+    <menuitem id="menu_multi_update_attendance_view"
+              name="Update Holidays"
+              parent="hr_attendance.menu_hr_attendance_manage_attendances" sequence="11"
+              groups="hr.group_hr_user"
+              action="action_multi_update_attendance"/>
+</odoo>

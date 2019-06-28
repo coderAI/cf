@@ -4,6 +4,7 @@
                 id="menu_e_invoice_root"
                 name="E-Invoice"
                 web_icon="mb_e_invoice,static/description/icon.png"
+                groups="group_e_invoice_user,group_e_invoice_exporter,group_e_invoice_manager"
                 sequence="88"/>
 
 

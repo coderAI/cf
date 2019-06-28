@@ -1,0 +1,1 @@
+from . import contract_customer_report

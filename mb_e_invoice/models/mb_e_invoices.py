@@ -23,7 +23,8 @@ STAGE={
        }
 KEY_URL_API=[
             'key_e_invoice api_call_get',
-            'key_e_invoice api_call_post'
+            'key_e_invoice api_call_post',
+            'key_e_invoice domain',
              ]
 
 DATE_FORMAT = "%Y-%m-%d"
@@ -123,25 +124,7 @@ class mb_e_invoices(models.Model):
             if self.env.user.has_group('mb_e_invoice.group_e_invoice_exporter') or self.env.user.has_group('mb_e_invoice.group_e_invoice_manager'):
                 self.support_invisible_dtd = True
 
-    # @api.depends('check_name')
-    # def fn_get_name_check(self):
-    #
-    #     return 'EI' + '/' + self.ids + '/' + str(datetime.datetime.now().year) + '/' + str(
-    #         datetime.datetime.now().month) + str(datetime.datetime.now().day)
 
-    #
-    # def set_name(self):
-    #     # now = datetime.datetime.now()
-    #     # return 'MB/'+str(self.id)+'/EI/'+str(now.month)+ str(now.day)+str(now.year)
-    #
-    #     return 'EI' + '/' + str(self.id) + '/' + str(datetime.datetime.now().year)# + '/' + str(datetime.datetime.now().month) + str(datetime.datetime.now().day)
-    #
-    # def fields_view_get(self, cr, uid, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):
-    #     login_user_dpt_id = users_obj.browse(cr, SUPERUSER_ID, uid, context=context).emp_department_id
-    #     for node in eview.xpath("//field[@name='user_id']"):
-    #         if login_user_dpt_id:
-    #             user_filter = "[('emp_department_id', '='," + str(login_user_dpt_id.id) + " )]"
-    #             node.set('domain', user_filter)
 
 
     name = fields.Char(
@@ -188,6 +171,7 @@ class mb_e_invoices(models.Model):
     support_invisible_dtd = fields.Boolean(compute=fn_support_invisible_dtd)
     # foo = fields.Char(track_visibility='always')
     support_readonly_field = fields.Boolean(compute=fn_support_readonly_field)
+
 
 
     def caculate_tax_and_total(self,invoice_ids,payment_type):
@@ -260,7 +244,7 @@ class mb_e_invoices(models.Model):
                 if e_invoice_data.id:
                     if invoice_line_id in invoice_id_list_check:
                         invoice_ids.remove(invoice_line_id)
-            self.buyer_name = partner.name or ''
+            #self.buyer_name = partner.name or ''
             self.address= (partner.street or '')+', '+(partner.state_id and partner.state_id.name or '')+', '+(partner.country_id and partner.country_id.name or '')#+(partner.city or '') +', '
             return {'domain': {'invoice_ids': [('id', 'in', invoice_ids)]}}
 
@@ -308,10 +292,36 @@ class mb_e_invoices(models.Model):
 
     @api.multi
     def set_done(self):
-        self.post_order_to_api()
-        self.write({'stages_id': self.change_stages('done')})
-        self.write({
-            'export_user_id': self._uid})
+        # if self.is_detail:
+        #     self.post_order_to_api(self.is_detail)
+        #     self.write({'stages_id': self.change_stages('done')})
+        #     self.write({
+        #         'export_user_id': self._uid})
+        # else:
+        ir_model_data = self.env['ir.model.data']
+        try:
+            compose_form_id = ir_model_data.get_object_reference('mb_e_invoice', 'view_mb_e_invoice_set_done_wizard_form')[1]
+        except ValueError:
+            compose_form_id = False
+        ctx = dict()
+        ctx.update({
+
+            'e_invoice_id': self.ids[0],
+            'is_detail':self.is_detail,
+            'action_by': 'set_done_bt',
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mb.e.invoice.set.done.wizard',
+            'views': [(compose_form_id, 'form')],
+            'view_id': compose_form_id,
+            'target': 'new',
+            'context': ctx,
+        }
+
+
 
 
 
@@ -376,9 +386,13 @@ class mb_e_invoices(models.Model):
     @api.multi
     def download_report(self):
         res={}
+
+        domain_url = self.env['mb.e.invoice.api.config'].search([('name', '=', KEY_URL_API[2])]).url
         url_e_invoice_api_get = self.env['mb.e.invoice.api.config'].search([('name', '=', KEY_URL_API[0])]).url
         try:
-            token = urllib2.urlopen( url_e_invoice_api_get+'/GetCodeByFkey.aspx?id='+self.name)#'https://portal.hoadon.online/GetCodeByFkey.aspx?id='
+
+            token = urllib2.urlopen(url_e_invoice_api_get+'/GetToken.aspx?id='+self.name)#+'&domain='+domain_url)#https://portal.hoadon.online/GetCodeByFkey.aspx?id=&domain=     'https://portal.hoadon.online/GetCodeByFkey.aspx?id='
+
             token = token.read()
             if token:
                 full_url = url_e_invoice_api_get+'/Invoice/getinvoice?token=' + token
@@ -426,15 +440,20 @@ class mb_e_invoices(models.Model):
             if line.price_subtotal <= 0:
                 continue
             VATRate = -1
+            VATRate_str = 'No Tax'
             if line.invoice_line_tax_ids.amount == 0:
                 if line.invoice_line_tax_ids.name:
                     VATRate = 0
+                    VATRate_str = 'Tax 0%'
                 else:
                     VATRate = -1
+                    VATRate_str = 'No Tax'
             elif line.invoice_line_tax_ids.amount == 5:
                 VATRate = 5
+                VATRate_str = 'Tax 5%'
             elif line.invoice_line_tax_ids.amount == 10:
                 VATRate = 10
+                VATRate_str = 'Tax 10%'
             if line.register_type == 'renew':
                 tmp_check=False
                 for specail_invoice_line in specail_invoice_line_list:
@@ -473,6 +492,7 @@ class mb_e_invoices(models.Model):
                 'ProdQuantity' : prodquantity,#“Số lượng”
                 'ProdPrice' : prodprice,#“Giá”
                 'VATRate' : VATRate,
+                'VATRate_str' : VATRate_str,
                 'VATAmount': VATAmount,  # “Tiền thuế”
                 'Total': total ,  # “Tổng tiền trước thuế”
                 'Amount': amount ,  # “Tổng tiền sau thuế”
@@ -483,7 +503,9 @@ class mb_e_invoices(models.Model):
 
 
     @api.multi
-    def post_order_to_api(self):
+    def post_order_to_api(self, is_detail=True, product_is_detail= None):
+
+
         headers = {
             "Content-Type": "application/json"
         }
@@ -493,8 +515,10 @@ class mb_e_invoices(models.Model):
             paymentmethod = 'Tiền mặt'
         elif self.payment_type ==  'bank':
             paymentmethod = 'Chuyển khoản'
-
-        product = self.get_data_products(self.invoice_line_ids)
+        if is_detail:
+            product = self.get_data_products(self.invoice_line_ids)
+        else:
+            product = product_is_detail
         data = {
             'AmountInWords': self.convert_vnd(self.total),
             'ArisingDate': self.convert_date(self.require_date) or '',
@@ -516,12 +540,17 @@ class mb_e_invoices(models.Model):
 
         config_api_url_data = self.sudo().env['mb.e.invoice.api.config'].search([('name', '=', KEY_URL_API[1]),('active','=',True)], limit=1)
         if config_api_url_data:
+
             url_e_invoice_api = config_api_url_data.url+'/api/v1/invoice/importAndPublishInv'
+
             url_e_invoice_api.replace(" ", "")
         else:
             raise Warning(_(
                 "this action can't run. You lost the config Api url with key "+KEY_URL_API[1]))
+
         data = json.dumps(data)
+
+
         r = requests.post(url_e_invoice_api, data=data, headers=headers)
         r = r.text
 
@@ -550,6 +579,8 @@ class mb_e_invoices(models.Model):
 
     def cancel_order_api_call(self,e_invoices):
         res =False
+        domain_url = self.env['mb.e.invoice.api.config'].search([('name', '=', KEY_URL_API[2])]).url
+
         config_api_url_data = self.sudo().env['mb.e.invoice.api.config'].search(
             [('name', '=', KEY_URL_API[1]), ('active', '=', True)], limit=1)
         if config_api_url_data:

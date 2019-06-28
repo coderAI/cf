@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+		<record id="sequence_customer" model="ir.sequence">
+			<field name="name">Customer</field>
+			<field name="code">res.partner</field>
+			<field name="prefix">CF</field>
+			<field eval="6" name="padding"/>
+			<field eval="1" name="number_next"/>
+			<field eval="1" name="number_increment"/>
+			<field name="company_id" eval="False"/>
+		</record>
+	</data>
+</odoo>

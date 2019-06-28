@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="generate_code_wizard_view" model="ir.ui.view">
+		<field name="name">Generate Code</field>
+		<field name="model">generate.code.wizard</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<field name="name" placeholder="New Password" required="1"/>
+					<footer>
+						<button name="action_generate" string="Generate" type="object" class="btn-primary"/>
+						<button special="cancel" string="Cancel" type="object" class="oe_link" />
+					</footer>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_generate_code_wizard" model="ir.actions.act_window">
+		<field name="name">Generate Code</field>
+		<field name="res_model">generate.code.wizard</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="generate_code_wizard_view" />
+		<field name="target">new</field>
+	</record>
+
+</odoo>

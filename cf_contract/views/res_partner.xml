@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_res_partner_contract_form_inherit">
+        <field name="name">view.res.partner.contract.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="cf_customer.view_res_partner_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='max_debt']" position="after">
+                <field name="contract_id" attrs="{'invisible': [('contract_id', '=', False)]}" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

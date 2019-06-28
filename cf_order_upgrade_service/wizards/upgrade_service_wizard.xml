@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="upgrade_service_wizard_form_wizard" model="ir.ui.view">
+            <field name="name">upgrade.service.wizard.form</field>
+            <field name="model">upgrade.service.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Upgrade Services">
+                    <sheet>
+                        <group col="2">
+                            <group colspan="1">
+                                <field name="old_category_id" required="1" domain="[('allow_upgrade','=',True)]"
+                                       options="{'no_quick_create': True, 'no_create': True,'no_open': True}"/>
+                                <field name="service_id" required="1"
+                                       options="{'no_quick_create': True, 'no_create': True,'no_open': True}"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="new_category_id" required="1"
+                                       options="{'no_quick_create': True, 'no_create': True,'no_open': True}"/>
+                            </group>
+                            <group colspan="1">
+                                <label for="time"/>
+								<div>
+									<field name="time" required="1" class="oe_inline"/>
+									(<field name="uom_id" class="oe_inline" readonly="1"/>)
+								</div>
+                                <field name="license"/>
+                                <field name="refund_amount"/>
+                                <field name="up_price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+						<button name="action_add" string="Add" type="object" class="btn-primary"/>
+						<button special="cancel" string="Cancel" type="object" class="oe_link" />
+					</footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_upgrade_service_wizard" model="ir.actions.act_window">
+            <field name="name">Upgrade Services</field>
+            <field name="res_model">upgrade.service.wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="upgrade_service_wizard_form_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,16 @@
+<odoo>
+    <!-- Root menu -->
+    <menuitem name="Transaction" id="menu_main_transaction"
+              web_icon="cf_transaction,static/description/icon.png"
+              groups="base.group_system,account.group_account_manager,sales_team.group_sale_salesman,cf_security.group_transaction_user"/>
+
+    <!-- Second menu -->
+    <menuitem name="Transaction" id="menu_transaction_management" parent="menu_main_transaction" sequence="1"/>
+    <menuitem name="Configuration" id="menu_transaction_configuration" parent="menu_main_transaction" sequence="2" groups="base.group_system"/>
+
+    <!-- Menu action -->
+    <menuitem id="menu_money_transfer" action="action_money_transfer" parent="menu_transaction_management" sequence="1"/>
+    <menuitem id="menu_money_transaction" action="action_view_bank_transaction" parent="menu_transaction_management" sequence="5"/>
+    <menuitem id="menu_transaction_setting" action="action_transaction_setting" parent="menu_transaction_configuration" sequence="1"/>
+    <menuitem id="menu_transaction_keywords" action="action_transaction_keywords" parent="menu_transaction_configuration" sequence="2"/>
+</odoo>

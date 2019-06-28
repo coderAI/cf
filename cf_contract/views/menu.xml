@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem
+			id="menu_contract_root"
+			name="Contract"
+			sequence="29"
+				web_icon="cf_contract,static/description/icon_contract.png"/>
+		<menuitem
+				id="menu_cf_contract"
+				name="Contract"
+				sequence="5"
+				action="action_cf_contract"
+				parent="menu_contract_root"/>
+		<menuitem
+				id="menu_cf_contract_appendix"
+				name="Appendix"
+				sequence="10"
+				action="action_cf_contract_appendix"
+				parent="menu_contract_root"/>
+
+		<menuitem
+				id="menu_cf_contract_config"
+				name="Configuration"
+				sequence="100"
+				parent="menu_contract_root"
+				groups="cf_security.group_sale_operator,base.group_system"/>
+
+			<menuitem
+					id="menu_cf_contract_location"
+					name="Location"
+					sequence="10"
+					action="action_cf_contract_location"
+					parent="menu_cf_contract_config"
+					groups="cf_security.group_sale_operator,base.group_system"/>
+
+			<menuitem
+					id="menu_cf_contract_folder"
+					name="Folder"
+					sequence="11"
+					action="action_contract_folder"
+					parent="menu_cf_contract_config"
+					groups="cf_security.group_sale_operator,base.group_system"/>
+
+			<menuitem
+					id="menu_cf_contract_page"
+					name="Page"
+					sequence="12"
+					action="action_contract_folder_page"
+					parent="menu_cf_contract_config"
+					groups="cf_security.group_sale_operator,base.group_system"/>
+</odoo>

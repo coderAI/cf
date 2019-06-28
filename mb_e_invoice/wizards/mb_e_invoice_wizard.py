@@ -34,7 +34,7 @@ class mb_e_invoice_wizard(models.TransientModel):
             res['customer_id'] = customer_id
             res['invoice_id'] = invoice_id
             res['address'] = address
-            res['buyer_name'] = customer.name
+            res['buyer_name'] = ''
             res['tax_code'] = customer.vat,
         return res
 
@@ -54,7 +54,7 @@ class mb_e_invoice_wizard(models.TransientModel):
                     'customer_id': customer_id,
                     #'tax_code': self.tax_code,
                     'payment_type': self.payment_type,
-                    'buyer_name': self.buyer_name,
+                    'buyer_name': self.buyer_name or '',
                     'require_date': self.require_date,
                     'address': self.address,
                     'invoice_ids': [[6, False, [invoice_id]]],
@@ -71,7 +71,7 @@ class mb_e_invoice_wizard(models.TransientModel):
                     'customer_id': customer_id,
                     #'tax_code': self.tax_code,
                     'payment_type': self.payment_type,
-                    'buyer_name': self.buyer_name,
+                    'buyer_name': self.buyer_name or '',
                     'require_date': self.require_date,
                     'address': self.address,
                     'invoice_ids': [[6, False, [invoice_id]]],

@@ -1,0 +1,20 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cf_contract_user,cf.contract user,model_cf_contract,base.group_user,1,0,0,0
+access_cf_contract_sale,cf.contract sale,model_cf_contract,sales_team.group_sale_salesman,1,1,1,0
+access_cf_contract_manager,cf.contract manager,model_cf_contract,base.group_system,1,1,1,1
+
+access_cf_contract_appendix_user,cf.contract.appendix user,model_cf_contract_appendix,base.group_user,1,0,0,0
+access_cf_contract_appendix_sale,cf.contract.appendix sale,model_cf_contract_appendix,sales_team.group_sale_salesman,1,1,1,0
+access_cf_contract_appendix_manager,cf.contract.appendix manager,model_cf_contract_appendix,base.group_system,1,1,1,1
+
+access_contract_location_user,contract.location user,model_contract_location,base.group_user,1,0,0,0
+access_contract_location_sale,contract.location sale,model_contract_location,cf_security.group_sale_operator,1,1,1,0
+access_contract_location_manager,contract.location manager,model_contract_location,base.group_system,1,1,1,1
+
+access_contract_folder_user,contract.folder user,model_contract_folder,base.group_user,1,0,0,0
+access_contract_folder_sale,contract.folder sale,model_contract_folder,cf_security.group_sale_operator,1,1,1,0
+access_contract_folder_manager,contract.folder manager,model_contract_folder,base.group_system,1,1,1,1
+
+access_contract_folder_page_user,contract.folder.page user,model_contract_folder_page,base.group_user,1,0,0,0
+access_contract_folder_page_sale,contract.folder.page sale,model_contract_folder_page,cf_security.group_sale_operator,1,1,1,0
+access_contract_folder_page_manager,contract.folder.page manager,model_contract_folder_page,base.group_system,1,1,1,1

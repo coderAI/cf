@@ -1,0 +1,50 @@
+<odoo>
+    <record id="view_attendance_report_pivot" model="ir.ui.view">
+        <field name="name">attendance.report.pivot</field>
+        <field name="model">attendance.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Attendance Analysis" disable_linking="True">
+                <field name="employee_id" type="dimensions"/>
+                <field name="min_in" type="measure"/>
+                <field name="min_out" type="measure"/>
+                <field name="count_attendance" type="measure"/>
+                <field name="in_money" type="measure"/>
+                <field name="out_money" type="measure"/>
+                <field name="total_money" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_attendance_report_search" model="ir.ui.view">
+        <field name="name">Attendance Search - Inherit</field>
+        <field name="model">attendance.report</field>
+        <field name="arch" type="xml">
+            <search string="Attendance Report Search">
+                <field name="employee_id"/>
+                <field name="card_no"/>
+                <filter string="This Month" name="this_month" domain="[('date_att','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                <filter string="Last Month" domain="[('date_att','&gt;=',(context_today()-relativedelta(months=1)).strftime('%Y-%m-01')),('date_att','&lt;',time.strftime('%Y-%m-01'))]"/>
+                <filter string="This Year" name="year" domain="[('date_att','&lt;=', time.strftime('%%Y-12-31')),('date_att','&gt;=',time.strftime('%%Y-01-01'))]"/>
+                <separator/>
+                <group string="Group By">
+                <filter string="Employee" name="employee" context="{'group_by':'employee_id'}"/>
+                <filter string="Date" name="date" context="{'group_by':'date_att'}"/>
+            </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="mb_action_attendance_report" model="ir.actions.act_window">
+        <field name="name">Attendance Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">attendance.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot</field>
+        <field name="context">{'search_default_this_month':1}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                No Attendances.
+            </p>
+        </field>
+    </record>
+</odoo>

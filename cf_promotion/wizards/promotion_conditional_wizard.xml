@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="promotion_wizard_view_form" model="ir.ui.view">
+            <field name="name">Promotion Condition</field>
+            <field name="model">promotion.conditional.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="12">
+                            <group colspan="4" string="Choose Condition Promotion Type" class="group_promotion">
+                                <field name="condition" widget="radio" nolabel="1"/>
+                            </group>
+                            <group colspan="8" col="12">
+                                <group colspan="12" col="12" attrs="{'invisible': [('condition', 'not in', ('product', 'register_time', 'amount_product'))]}">
+                                    <label for="promotion_type" string="Type" colspan="2"/>
+                                    <field name="promotion_type" widget="radio" options="{'horizontal': true}"
+                                           nolabel="1"  colspan="10"/>
+                                </group>
+                                <group colspan="12" col="12">
+                                    <field colspan="12" name="product_category_ids" nolabel="1"
+                                           attrs="{'invisible': [('condition', 'not in', ('product',))]}">
+                                        <tree editable="bottom">
+                                            <field name="product_category_id" string="Product Category" required="1"
+                                            options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                        </tree>
+                                    </field>
+                                    <field colspan="12" name="register_time_ids" nolabel="1"
+                                           attrs="{'invisible': [('condition', '!=', 'register_time')]}"
+                                           options="{'no_quick_create': True, 'no_create': True, 'no_create_edit': True, 'no_open': True}">
+                                        <tree editable="bottom">
+                                            <field name="product_category_id" required="1"
+                                                   options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                            <field name="month_from"/>
+                                            <!--<field name="month_to"/>-->
+                                            <field name="uom_id" options="{'no_open': True}"/>
+                                        </tree>
+                                    </field>
+                                    <field colspan="12" name="amount_product_ids" nolabel="1"
+                                           attrs="{'invisible': [('condition', '!=', 'amount_product')]}"
+                                           options="{'no_quick_create': True, 'no_create': True, 'no_create_edit': True, 'no_open': True}">
+                                        <tree editable="bottom">
+                                            <field name="product_category_id" required="1"
+                                                   options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                            <field name="amount"/>
+                                        </tree>
+                                    </field>
+                                    <field colspan="12" name="period_amount" attrs="{'invisible': [('condition', '!=', 'amount_order')]}"/>
+                                    <field colspan="12" name="customer_type" widget="many2many_tags" nolabel="1"
+                                           attrs="{'invisible': [('condition', '!=', 'customer_type')]}"
+                                           options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                    <field colspan="12" name="order_type" widget="many2many_tags" nolabel="1"
+                                           attrs="{'invisible': [('condition', '!=', 'order_type')]}"
+                                           options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                    <field colspan="12" name="customer_ids" nolabel="1"
+                                           attrs="{'invisible': [('condition', '!=', 'list_customer')]}">
+                                        <tree editable="bottom">
+                                            <field name="customer_id" domain="[('customer', '=', True)]" required="1"
+                                            options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                        </tree>
+                                    </field>
+                                    <field colspan="12" name="customer_email" nolabel="1"
+                                           attrs="{'invisible': [('condition', '!=', 'customer_email')]}">
+                                        <tree editable="bottom">
+                                            <field name="email" required="1"/>
+                                        </tree>
+                                    </field>
+                                    <!--<field colspan="12" name="customer_level" widget="many2many_tags" nolabel="1"-->
+                                           <!--attrs="{'invisible': [('condition', '!=', 'customer_level')]}"-->
+                                           <!--options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>-->
+                                    <field colspan="12" name="register_type" widget="many2many_tags" nolabel="1"
+                                           attrs="{'invisible': [('condition', '!=', 'register_type')]}"
+                                           options="{'no_quick_create': True, 'no_create': True, 'no_open': True}"/>
+                                    <field colspan="12" name="total_product" nolabel="1"
+                                           attrs="{'invisible': [('condition', '!=', 'count_product')]}"/>
+                                    <field colspan="12" name="total_product_discount" nolabel="1"
+                                           attrs="{'invisible': [('condition', '!=', 'total_product_discount')]}"
+                                           options="{'no_quick_create': True, 'no_create': True, 'no_create_edit': True, 'no_open': True}">
+                                        <tree editable="bottom">
+                                            <field name="product_category_id" required="1"
+                                                   options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                            <field name="total"/>
+                                        </tree>
+                                    </field>
+                                    <!--<field colspan="12" name="journal_ids" nolabel="1"-->
+                                           <!--attrs="{'invisible': [('condition', '!=', 'journal')]}"-->
+                                           <!--options="{'no_quick_create': True, 'no_create': True, 'no_open': True}">-->
+                                        <!--<tree>-->
+                                            <!--<field name="name" string="Journal" options="{'no_quick_create': True, 'no_create': True, 'no_create_edit': True, 'no_open': True}"/>-->
+                                        <!--</tree>-->
+                                    <!--</field>-->
+                                </group>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="action_save" string="Save and Close" type="object" class="btn-primary"/>
+                            <button name="action_save" context="{'nothing': True}" string="Save" type="object" class="btn-primary"/>
+                            <button special="cancel" string="Cancel" type="object" class="oe_link" />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_promotion_condition_wizard" model="ir.actions.act_window">
+            <field name="name">Promotion Condition</field>
+            <field name="res_model">promotion.conditional.wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!--<record id="action_promotion_discount_wizard" model="ir.actions.act_window">-->
+            <!--<field name="name">Promotion Discount</field>-->
+            <!--<field name="res_model">promotion.conditional.wizard</field>-->
+            <!--<field name="type">ir.actions.act_window</field>-->
+            <!--<field name="view_type">form</field>-->
+            <!--<field name="view_mode">form</field>-->
+            <!--<field name="target">new</field>-->
+        <!--</record>-->
+    </data>
+</odoo>

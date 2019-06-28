@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payment_receipt_template" model="ir.actions.report.xml">
+      <field name="name">Phieu Thu</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">account.payment</field>
+      <field name="report_name">payment_receipt_template</field>
+      <field name="report_type">py3o</field>
+      <field name="py3o_filetype">odt</field>
+      <field name="module">cf_transaction</field>
+      <field name="menu">False</field>
+      <field name="py3o_template_fallback">reports/PHIEU_THU.odt</field>
+    </record>
+</odoo>

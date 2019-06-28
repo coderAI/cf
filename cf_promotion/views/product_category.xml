@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="product_category_form_view_custom_price_tax" model="ir.ui.view">
+        <field name="name">product.category.form.custom.price.tax</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="cf_product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <page name="price" position="replace">
+                <page string="Price" name="price">
+                    <group>
+                        <group>
+                            <field name="setup_price"/>
+                            <field name="renew_price"/>
+                            <field name="default_tax"/>
+                        </group>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>

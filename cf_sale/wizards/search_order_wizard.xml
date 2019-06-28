@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="search_order_wizard_view" model="ir.ui.view">
+		<field name="name">Search Order wizard</field>
+		<field name="model">search.order.wizard</field>
+		<field name="arch" type="xml">
+			<form string="Search Sales Orders">
+				<sheet>
+				<group>
+					<button name="search_order" string="SEARCH" type="object" class="btn-primary" />
+				</group>
+				<group>
+					<group>
+						<field name="name" placeholder="SO001"/>
+						<field name="customer_code" placeholder="MB000001"/>
+						<field name="customer_name" placeholder="Nguyễn Văn A"/>
+					</group>
+					<group>
+						<field name="product_category" placeholder=".vn" domain="[('child_id', '=', False)]"
+							   options="{'no_open': True, 'no_create': True}"/>
+						<field name="product_code" placeholder="ERP00001"
+							   attrs="{'required': [('is_product', '=', False), ('product_category', '!=', False)]}"/>
+						<field name="product_name" placeholder="hello.com"
+							   attrs="{'required': [('is_product', '=', False), ('product_category', '!=', False)]}"/>
+						<field name="is_product" invisible="1"/>
+					</group>
+				</group>
+				<field name="order_ids" readonly="1">
+					<tree string="Order Lines">
+						<field name="name"/>
+						<field name="date_order"/>
+						<field name="partner_id"/>
+						<field name="user_id"/>
+						<field name="team_id"/>
+						<field name="state"/>
+						<field name="billing_type"/>
+						<field name="type"/>
+					</tree>
+				</field>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_search_order_wizard" model="ir.actions.act_window">
+		<field name="name">Search Sales Orders</field>
+		<field name="res_model">search.order.wizard</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="search_order_wizard_view"/>
+		<field name="target">inline</field>
+	</record>
+
+    <!-- Search order menu -->
+    <menuitem id="search_order_menu" parent="sales_team.menu_sales"
+        sequence="19" action="action_search_order_wizard" />
+</odoo>
