@@ -391,8 +391,7 @@ class mb_e_invoices(models.Model):
         url_e_invoice_api_get = self.env['mb.e.invoice.api.config'].search([('name', '=', KEY_URL_API[0])]).url
         try:
 
-            token = urllib2.urlopen(url_e_invoice_api_get+'/GetToken.aspx?id='+self.name)#+'&domain='+domain_url)#https://portal.hoadon.online/GetCodeByFkey.aspx?id=&domain=     'https://portal.hoadon.online/GetCodeByFkey.aspx?id='
-
+            token = urllib2.urlopen(url_e_invoice_api_get+'/GetCodeByFkey.aspx?id='+self.name)
             token = token.read()
             if token:
                 full_url = url_e_invoice_api_get+'/Invoice/getinvoice?token=' + token
