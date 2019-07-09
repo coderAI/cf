@@ -43,7 +43,6 @@ class mb_reason_invoice_line_wizard(models.TransientModel):
                             'note':self.note,
                          })
             self.env['mb.reason.invoice.line'].create(vals)
-
             mb_e_invoices_ids = self.env['mb.e.invoices'].search([('id', '=', rec_context.get('default_res_id'))])
             self.env['mb.e.invoices'].cancel_order_api_call(mb_e_invoices_ids)
 
@@ -59,10 +58,7 @@ class mb_reason_invoice_line_wizard(models.TransientModel):
                             'note':self.note,
                          })
             self.env['mb.reason.invoice.line'].create(vals)
-
             mb_e_invoices_ids = self.env['mb.e.invoices'].search([('id', '=', rec_context.get('default_res_id'))])
-
-
             for record in mb_e_invoices_ids:
                 record.write({
                     'stages_id': record.change_stages('refuse')

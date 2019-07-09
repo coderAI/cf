@@ -148,7 +148,7 @@ class mb_e_invoices(models.Model):
     invoice_ids = fields.Many2many('account.invoice', 'account_invoice_e_invoice_rel','e_invoices_id', 'account_invoice_id',
                                    string='Invoice')
     #invoice_ids = fields.One2many('account.invoice', 'mb_e_invoice_ids', string='Invoice')
-    # invoice_line_ids = fields.One2many(related='invoice_ids.invoice_line_ids')
+    #invoice_line_ids = fields.One2many(related='invoice_ids.invoice_line_ids')
     invoice_line_ids = fields.One2many('account.invoice.line',compute=fn_invoice_line_ids, string='E-Invoice Lines')
     reason_line_ids = fields.One2many('mb.reason.invoice.line','mb_e_invoices_id', string='Reason Lines')
     #invoice_line_ids = fields.One2many('account.invoice.line', 'mb_e_invoice_ids', string='E Invoice Lines')
@@ -391,7 +391,8 @@ class mb_e_invoices(models.Model):
         url_e_invoice_api_get = self.env['mb.e.invoice.api.config'].search([('name', '=', KEY_URL_API[0])]).url
         try:
 
-            token = urllib2.urlopen(url_e_invoice_api_get+'/GetCodeByFkey.aspx?id='+self.name)
+            token = urllib2.urlopen(url_e_invoice_api_get+'/GetToken.aspx?id='+self.name)#+'&domain='+domain_url)#https://portal.hoadon.online/GetCodeByFkey.aspx?id=&domain=     'https://portal.hoadon.online/GetCodeByFkey.aspx?id='
+
             token = token.read()
             if token:
                 full_url = url_e_invoice_api_get+'/Invoice/getinvoice?token=' + token

@@ -113,20 +113,21 @@ class mb_e_invoice_set_done_wizard(models.TransientModel):
                     }
 
                 for i in mb_e_invoice.invoice_line_ids:
-                    if i.invoice_line_tax_ids.amount == -1:
+                    if i.invoice_line_tax_ids.amount:
+                        if i.invoice_line_tax_ids.amount == 0:
+                            total_0 = total_0 + i.price_subtotal
+                            check_0 = True
+                        elif i.invoice_line_tax_ids.amount == 5:
+                            total_5 = total_5 + i.price_subtotal
+                            check_5 = True
+                        elif i.invoice_line_tax_ids.amount == 10:
+                            total_10 = total_10 + i.price_subtotal
+                            check_10 = True
+                    else:
                         total_none = total_none + i.price_subtotal
                         check_none = True
-                    elif i.invoice_line_tax_ids.amount == 0:
-                        total_0 = total_0 + i.price_subtotal
-                        check_0 = True
-                    elif i.invoice_line_tax_ids.amount == 5:
-                        total_5 = total_5 + i.price_subtotal
-                        check_5 = True
-                    elif i.invoice_line_tax_ids.amount == 10:
-                        total_10 = total_10 + i.price_subtotal
-                        check_10 = True
-                if check_none:
 
+                if check_none:
                     e_invoice_set_done_line = e_invoice_set_done_line_obj.create(create_values_line('code_none',total_none,-1,'None Tax',0,total_none))
                     line_ids.append(e_invoice_set_done_line.id)
                 if check_0:

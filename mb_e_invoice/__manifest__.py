@@ -33,9 +33,11 @@ You can manage:
         'wizards/mb_e_invoice_wizard.xml',
         'wizards/mb_e_invoice_set_done_wizard.xml',
 
-        'menu/menu.xml',
+
         'security/ir.model.access.csv',
         'security/ir_rule.xml',
+
+        'menu/menu.xml',
     ],
     'installable': True,
     'application': True,
