@@ -16,8 +16,8 @@ class mb_e_invoice_wizard(models.TransientModel):
     tax_code = fields.Char(string='Tax Code')
     note = fields.Char(string='Note')
     require_date = fields.Date('Require Date')
-    payment_type = fields.Selection([('cash', 'Cash'), ('bank', 'Bank'), ('candb', 'Cash and Bank')],
-                                    string='Payment Type', default='bank')
+    payment_type = fields.Selection([('candb', 'Cash and Bank')],
+                                    string='Payment Type', default='candb')
 
     @api.model
     def default_get(self, fields):

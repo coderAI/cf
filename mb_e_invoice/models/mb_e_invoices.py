@@ -143,7 +143,7 @@ class mb_e_invoices(models.Model):
                               stages_name={'Draft': [('readonly', False)]}, default=lambda self: self.env.user)
     address = fields.Char(string='Address')
     tax_code = fields.Char(string='Tax Code', related='customer_id.vat')#('stages.invoice', string='State', readonly=True, default=lambda self: self._get_default_stages_id())
-    payment_type = fields.Selection([('cash', 'Cash'), ('bank', 'Bank'), ('candb', 'Cash and Bank')], string='Payment Type', default='bank')
+    payment_type = fields.Selection([('candb', 'Cash and Bank')], string='Payment Type', default='candb')
 
     invoice_ids = fields.Many2many('account.invoice', 'account_invoice_e_invoice_rel','e_invoices_id', 'account_invoice_id',
                                    string='Invoice')

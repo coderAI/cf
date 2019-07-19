@@ -13,11 +13,12 @@
 
                             <field name="buyer_name"/>
                             <field name="address"/>
-                            <field name="payment_type"/>
+                            <field name="payment_type" required="1"/>
                             <field name="require_date"/>
                             <field name="invoice_id" readonly="1" invisible="1"/>
                             <field name="customer_id" readonly="1"/>
                             <field name="tax_code" readonly="1"/>
+                            <field name="note"/>
 
                         </group>
                         <footer>

@@ -19,7 +19,7 @@
 
 
                         <button name="set_cancel" string="Cancel" type="object" class="oe_highlight" attrs="{'invisible': [('stages_name', '!=', 'Done')]}"
-                                groups="mb_e_invoice.group_e_invoice_exporter,mb_e_invoice.group_e_invoice_managers"/>
+                                groups="account.group_account_manager"/>
                         <button name="export_action" string="Export File" type="object" class="oe_highlight" attrs="{'invisible': [('stages_name', '!=', 'Done')]}"/>
 
 
